@@ -276,6 +276,29 @@
     });
   };
 
+  /* ===== LIGHTBOX (site preview) ===== */
+  window.openLightbox = function(src) {
+    var overlay = document.querySelector('.lightbox-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      overlay.innerHTML = '<button class="lightbox-close" onclick="closeLightbox()">&times;</button><img src="" alt="Preview">';
+      overlay.onclick = function(ev) { if (ev.target === overlay) closeLightbox(); };
+      document.body.appendChild(overlay);
+    }
+    overlay.querySelector('img').src = src;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeLightbox = function() {
+    var overlay = document.querySelector('.lightbox-overlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  document.addEventListener('keydown', function(ev) {
+    if (ev.key === 'Escape') closeLightbox();
+  });
+
   /* ===== SEARCH LISTING (table + cards) ===== */
   window.searchListing = function(input) {
     var val = input.value.toLowerCase();
