@@ -558,6 +558,12 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
+/* SEO review cards responsive */
+.seo-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 480px) {
+  .seo-pros-cons { grid-template-columns: 1fr; }
+}
+
 /* Review content */
 .review-content { margin-bottom: 40px; }
 .review-content h2 { font-size: 18px; font-weight: 700; margin-top: 36px; margin-bottom: 14px; color: var(--text-primary); }
