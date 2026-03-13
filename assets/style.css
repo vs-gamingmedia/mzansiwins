@@ -1304,3 +1304,56 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 @media (min-width: 900px) { .two-col-wide { grid-template-columns: 1fr 320px; } }
 .two-col-wide .expansion-sidebar { display: none; }
 @media (min-width: 900px) { .two-col-wide .expansion-sidebar { display: block; } }
+
+/* Promo Banners */
+.promo-banners-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 600px) {
+  .promo-banners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.promo-banner-card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.promo-banner-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+.promo-banner-link {
+  display: block;
+  line-height: 0;
+}
+.promo-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px 12px 0 0;
+}
+.promo-banner-info {
+  padding: 16px;
+}
+.promo-banner-label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+.promo-banner-details {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.promo-banner-code-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
