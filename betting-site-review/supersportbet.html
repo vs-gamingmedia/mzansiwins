@@ -386,7 +386,35 @@
           <a href="../betting-sites.html" style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--accent);font-weight:500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> All Betting Sites</a>
         </div>
       </div>
-    </div></main>
+    </div>
+
+    <!-- Sticky Bottom CTA Bar -->
+    <div class="sticky-bottom-bar" id="stickyBar">
+      <div class="sticky-bottom-inner">
+        <div class="sticky-bottom-left">
+          <img src="../assets/logos/supersportbet.svg" alt="Supersportbet" class="sticky-bottom-logo" style="background:#111fa3;padding:4px">
+          <div class="sticky-bottom-text">
+            <div class="sticky-bottom-offer">Deposit R5000 Get R5000</div>
+            <div class="sticky-bottom-tcs">18+. T&amp;Cs apply. The Supersportbet code is BETS.</div>
+          </div>
+        </div>
+        <div class="sticky-bottom-right">
+          <span class="sticky-bottom-code">BETS</span>
+          <a href="../link/supersportbet/" target="_blank" rel="noopener noreferrer nofollow" class="sticky-bottom-cta">Claim Bonus</a>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var bar=document.getElementById('stickyBar');
+      if(!bar)return;
+      var shown=false;
+      window.addEventListener('scroll',function(){
+        if(window.scrollY>400){if(!shown){bar.classList.add('visible');shown=true;}}
+        else{if(shown){bar.classList.remove('visible');shown=false;}}
+      });
+    })();
+    </script></main>
   <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
