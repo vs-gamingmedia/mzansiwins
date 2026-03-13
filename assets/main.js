@@ -354,3 +354,13 @@
     });
   };
 })();
+
+/* ===== SPORTS CALENDAR TAB SWITCHING ===== */
+function switchCalMonth(month) {
+  document.querySelectorAll('.cal-tab').forEach(function(t) {
+    t.classList.toggle('active', t.getAttribute('data-month') === month);
+  });
+  document.querySelectorAll('.cal-panel').forEach(function(p) {
+    p.style.display = p.getAttribute('data-month') === month ? '' : 'none';
+  });
+}
