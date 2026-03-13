@@ -846,6 +846,19 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 [data-theme="dark"] .top3-rank { color: rgba(255,255,255,0.06); }
 [data-theme="dark"] .top-pick .top3-rank { color: rgba(255,255,255,0.1); }
 
+/* ===== REVIEW HERO LOGO ===== */
+.review-hero-header {
+  display: flex; align-items: center; gap: 20px;
+}
+.review-hero-logo {
+  width: 72px; height: 72px; border-radius: 14px; object-fit: contain;
+  border: 1px solid var(--border); flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .review-hero-header { gap: 14px; }
+  .review-hero-logo { width: 56px; height: 56px; border-radius: 10px; }
+}
+
 /* ===== BRAND WATERMARK HERO ===== */
 .brand-hero-wrap {
   position: relative; overflow: hidden;
