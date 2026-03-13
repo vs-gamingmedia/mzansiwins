@@ -433,11 +433,11 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 }
 .rating-ring-num { font-weight: 800; font-size: 20px; line-height: 1; }
 .rating-ring-max { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-.rating-bar-track { flex: 1; height: 24px; display: flex; gap: 4px; }
-.rating-bar-seg { flex: 1; border-radius: 3px; background: var(--border); transition: background 300ms; }
-.rating-bar-seg.filled { background: var(--accent); }
-.rating-bar-seg.filled.mid { background: rgba(124,58,237,0.8); }
-.rating-bar-seg.filled.low { background: var(--bonus); }
+.rating-row { display: flex; align-items: center; gap: 12px; }
+.rating-row-label { font-size: 13px; color: var(--text-secondary); width: 76px; flex-shrink: 0; font-weight: 500; }
+.rating-row-val { font-size: 14px; font-weight: 700; width: 34px; text-align: right; color: var(--text-primary); }
+.rating-bar-track { flex: 1; height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.rating-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
 
 /* ===== PROS & CONS ===== */
 .pros-box { background: rgba(22,163,74,0.04); border: 1px solid rgba(22,163,74,0.15); border-radius: 8px; padding: 20px; }
