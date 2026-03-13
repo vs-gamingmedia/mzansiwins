@@ -1111,18 +1111,72 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 .result-highlight { background: var(--accent-light); margin: 4px -12px; padding: 10px 12px !important; border-radius: 8px; border-bottom: none !important; }
 .result-highlight span:last-child { color: var(--accent); font-size: 16px; }
 
-/* Info section */
+/* Info section - boxed card */
 .calc-info-section {
   margin-bottom: 32px;
+  background: var(--surface);
+  border: var(--card-border);
+  border-radius: 12px;
+  padding: 28px 28px 24px;
 }
-.calc-info-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-.calc-info-section p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); }
+.calc-info-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.calc-info-section h3 { font-size: 16px; font-weight: 600; margin-top: 20px; margin-bottom: 8px; color: var(--text-primary); }
+.calc-info-section p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 12px; }
+.calc-info-section p:last-child { margin-bottom: 0; }
+.calc-info-section ul {
+  margin: 12px 0 16px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.calc-info-section ul li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.calc-info-section ul li:last-child { margin-bottom: 0; }
+.calc-info-section ul li::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
 .calc-example-box {
-  margin-top: 16px; padding: 16px 20px; background: var(--accent-light);
+  margin-top: 20px; padding: 16px 20px; background: var(--accent-light);
   border-radius: 8px; border-left: 3px solid var(--accent);
 }
 .calc-example-box strong { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); display: block; margin-bottom: 6px; }
 .calc-example-box p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+
+/* Calculator FAQ accordion */
+.calc-info-section .faq-item {
+  border: var(--card-border); border-radius: 8px; overflow: hidden;
+  background: var(--bg); margin-bottom: 8px;
+}
+.calc-info-section .faq-item:last-of-type { margin-bottom: 0; }
+.calc-info-section .faq-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; background: none; border: none; cursor: pointer;
+  text-align: left; gap: 12px; font-family: inherit;
+}
+.calc-info-section .faq-btn span:first-child { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+.calc-info-section .faq-chevron { flex-shrink: 0; transition: transform 280ms; color: var(--text-muted); }
+.calc-info-section .faq-item.open .faq-chevron { transform: rotate(180deg); }
+.calc-info-section .faq-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--sep); }
+.calc-info-section .faq-item.open .faq-body { display: block; }
+.calc-info-section .faq-body p { font-size: 14px; color: var(--text-secondary); line-height: 1.75; padding-top: 12px; margin: 0; }
+
+/* CTA box inside calc pages - override card bg */
+.calc-cta-box {
+  background: var(--accent-light) !important;
+  border: none !important;
+}
 
 /* Related calculators */
 .calc-related-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -1138,7 +1192,10 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 /* Sidebar */
 .calc-sidebar-card {
   background: var(--surface); border: var(--card-border); border-radius: 12px;
-  padding: 20px; position: sticky; top: 80px;
+  padding: 20px;
+}
+.calc-sidebar-sticky {
+  position: sticky; top: 80px;
 }
 .calc-sidebar-brand {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -1173,3 +1230,9 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
   .news-layout { grid-template-columns: 1fr !important; }
   .news-sidebar { position: static !important; order: -1; margin-bottom: 24px; }
 }
+
+/* Two-col-wide layout for expansion pages */
+.two-col-wide { display: grid; grid-template-columns: 1fr; gap: 32px; }
+@media (min-width: 900px) { .two-col-wide { grid-template-columns: 1fr 320px; } }
+.two-col-wide .expansion-sidebar { display: none; }
+@media (min-width: 900px) { .two-col-wide .expansion-sidebar { display: block; } }
