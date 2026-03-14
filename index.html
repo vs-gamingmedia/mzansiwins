@@ -157,8 +157,14 @@
       </nav>
       <div class="header-right">
         <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+        <div class="starred-nav-badge" id="starredNavBadge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg>
+          <span class="starred-nav-count" id="starredCount" style="display:none">0</span>
+          <div class="starred-dropdown" id="starredDropdown">
+            <div class="starred-dropdown-empty">Star a bookmaker to track it here</div>
+          </div>
+        </div>
         <a href="betting-sites.html" class="betting-sites-btn">Betting Sites</a>
-        <a href="promo-codes.html" class="get-bonus-btn">Get Bonus</a>
       </div>
     </div>
   </header>
@@ -232,7 +238,45 @@
   </div>
 </div>
   <main>
-    <section class="hero">
+    <section class="hero hero-animated-bg">
+      <div class="hero-particles" aria-hidden="true">
+        <svg class="particle-layer particle-layer-1" width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--accent)" opacity="0.6">
+            <text x="50" y="80" font-size="32">&#9917;</text>
+            <text x="200" y="160" font-size="28">&#127942;</text>
+            <text x="380" y="100" font-size="36">&#127919;</text>
+            <text x="550" y="200" font-size="30">&#9918;</text>
+            <text x="700" y="120" font-size="34">&#127941;</text>
+            <text x="100" y="300" font-size="26">&#127944;</text>
+            <text x="300" y="350" font-size="32">&#127947;</text>
+            <text x="500" y="400" font-size="28">&#127946;</text>
+            <text x="650" y="320" font-size="30">&#127943;</text>
+            <text x="150" y="500" font-size="34">&#127915;</text>
+            <text x="450" y="520" font-size="26">&#9917;</text>
+            <text x="750" y="480" font-size="32">&#127919;</text>
+          </g>
+        </svg>
+        <svg class="particle-layer particle-layer-2" width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--accent)" opacity="0.4">
+            <text x="120" y="140" font-size="22">&#127942;</text>
+            <text x="320" y="60" font-size="20">&#9918;</text>
+            <text x="480" y="280" font-size="24">&#127944;</text>
+            <text x="620" y="180" font-size="18">&#127919;</text>
+            <text x="80" y="420" font-size="22">&#127943;</text>
+            <text x="400" y="480" font-size="20">&#127947;</text>
+            <text x="700" y="400" font-size="24">&#9917;</text>
+          </g>
+        </svg>
+        <svg class="particle-layer particle-layer-3" width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--accent)" opacity="0.3">
+            <text x="250" y="120" font-size="16">&#127941;</text>
+            <text x="500" y="80" font-size="14">&#127946;</text>
+            <text x="150" y="350" font-size="16">&#127915;</text>
+            <text x="600" y="450" font-size="14">&#127942;</text>
+            <text x="350" y="550" font-size="16">&#9918;</text>
+          </g>
+        </svg>
+      </div>
       <div class="container hero-layout">
         <div class="hero-text">
           <div class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> <span>36 LICENSED SA BOOKMAKERS TESTED</span></div>
@@ -243,7 +287,7 @@
             <a href="betting-sites.html" class="btn-outline"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> View Top Bookmakers</a>
           </div>
           <div class="hero-trust-bar">
-            <div class="hero-trust-item">
+            <div class="hero-trust-item trust-badge-primary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
               <span>Licensed &amp; Verified</span>
             </div>
@@ -336,6 +380,56 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div><h2 class="section-title">Grab Your Welcome Bonus</h2><p class="section-subtitle">The best sign-up deals from licensed SA bookmakers - all tested by our team</p></div>
+          <a href="promo-codes.html" class="section-link">All promo codes</a>
+        </div>
+        <div class="top-bonuses-grid"><a href="betting-site-review/apexbets.html" class="top-bonus-card">
+          <img src="assets/logos/apexbets.svg" alt="Apexbets" style="background:#1b1a1f;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">Apexbets</div>
+          <div class="bonus-amount">R30,000</div>
+          <div class="bonus-code">Code: NEWBONUS</div>
+        </a><a href="betting-site-review/betfred.html" class="top-bonus-card">
+          <img src="assets/logos/betfred.svg" alt="Betfred" style="background:#005a99;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">Betfred</div>
+          <div class="bonus-amount">R21,000</div>
+          <div class="bonus-code">Code: NEWBONUS</div>
+        </a><a href="betting-site-review/world-sports-betting.html" class="top-bonus-card">
+          <img src="assets/logos/world-sports-betting.svg" alt="World Sports Betting" style="background:#041467;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">World Sports Betting</div>
+          <div class="bonus-amount">R20,000</div>
+          <div class="bonus-code">Code: NEWBONUS</div>
+        </a><a href="betting-site-review/betxchange.html" class="top-bonus-card">
+          <img src="assets/logos/betxchange.svg" alt="betXchange" style="background:#0033cc;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">betXchange</div>
+          <div class="bonus-amount">R20,000</div>
+          <div class="bonus-code">Code: BETS</div>
+        </a><a href="betting-site-review/jabula-bets.html" class="top-bonus-card">
+          <img src="assets/logos/jabula-bets.svg" alt="Jabula Bets" style="background:#282625;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">Jabula Bets</div>
+          <div class="bonus-amount">R15,000</div>
+          <div class="bonus-code">Code: BETS</div>
+        </a><a href="betting-site-review/pantherbet.html" class="top-bonus-card">
+          <img src="assets/logos/pantherbet.svg" alt="Pantherbet" style="background:#000000;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">Pantherbet</div>
+          <div class="bonus-amount">R14,000</div>
+          <div class="bonus-code">Code: BETS</div>
+        </a><a href="betting-site-review/playtsogo.html" class="top-bonus-card">
+          <img src="assets/logos/playtsogo.svg" alt="PlayTsogo" style="background:#0F2D84;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">PlayTsogo</div>
+          <div class="bonus-amount">R10,000</div>
+          <div class="bonus-code">Code: NEWBONUS</div>
+        </a><a href="betting-site-review/wanejo-bets.html" class="top-bonus-card">
+          <img src="assets/logos/wanejo-bets.png" alt="Wanejo Bets" style="background:#202020;padding:3px;border:1px solid var(--border)">
+          <div class="bonus-name">Wanejo Bets</div>
+          <div class="bonus-amount">R10,000</div>
+          <div class="bonus-code">Code: BETS</div>
+        </a></div>
       </div>
     </section>
 
@@ -734,7 +828,7 @@
       </div>
       <div class="footer-col">
         <p class="footer-heading">Top Bookmakers</p>
-        <a href="betting-site-review/zarbet.html">Zarbet</a>
+        <div class="footer-links"><a href="betting-site-review/zarbet.html">Zarbet</a>
 <a href="betting-site-review/easybet-south-africa.html">Easybet South Africa</a>
 <a href="betting-site-review/10bet-south-africa.html">10Bet South Africa</a>
 <a href="betting-site-review/betway-south-africa.html">Betway South Africa</a>
@@ -744,10 +838,11 @@
 <a href="betting-site-review/world-sports-betting.html">World Sports Betting</a>
 <a href="betting-site-review/jabula-bets.html">Jabula Bets</a>
 <a href="betting-site-review/hollywoodbets.html">Hollywoodbets</a>
-
+</div>
       </div>
       <div class="footer-col">
         <p class="footer-heading">Categories</p>
+        <div class="footer-links">
         <a href="betting-sites.html">Best Betting Sites</a>
         <a href="casino-sites.html">Best Casino Sites</a>
         <a href="promo-codes.html">All Promo Codes</a>
@@ -758,9 +853,11 @@
         <a href="betting-calculators.html">Betting Calculators</a>
         <a href="payment-methods.html">Payment Methods</a>
         <a href="our-authors.html">Our Authors</a>
+        </div>
       </div>
       <div class="footer-col">
         <p class="footer-heading">Transparency</p>
+        <div class="footer-links">
         <a href="code-of-ethics.html">Code of Ethics</a>
         <a href="editorial-policy.html">Editorial Policy</a>
         <a href="fact-checking.html">Fact Checking</a>
@@ -768,16 +865,20 @@
         <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
         <a href="advertising-disclosure.html">Advertising Disclosure</a>
         <a href="complaints-policy.html">Complaints Policy</a>
+        </div>
       </div>
       <div class="footer-col">
         <p class="footer-heading">Responsible Gambling</p>
+        <div class="footer-links">
         <a href="responsible-gambling-policy.html">Responsible Gambling Policy</a>
         <a href="support-organisations.html">Support Organisations</a>
         <a href="betting-risk-awareness.html">Betting Risk Awareness</a>
         <a href="self-exclusion-resources.html">Self-Exclusion Resources</a>
+        </div>
       </div>
       <div class="footer-col">
         <p class="footer-heading">Corporate</p>
+        <div class="footer-links">
         <a href="about-us.html">Company Information</a>
         <a href="management-team.html">Management Team</a>
         <a href="partnerships.html">Partnerships</a>
@@ -789,6 +890,7 @@
         <a href="cookie-policy.html">Cookie Policy</a>
         <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
         <a href="sitemap.xml">Sitemap</a>
+        </div>
       </div>
     </div>
     <div class="rg-notice">
@@ -801,6 +903,9 @@
     <p class="footer-disclaimer">Disclaimer: MzansiWins is an independent review site. Ja, we earn affiliate commissions when you sign up through our links - that is how we keep the lights on. But it never influences our rankings or what we write. All bonus offers and odds are subject to change. Always read the T&amp;Cs, even the boring bits.</p>
   </div>
 </footer>
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
   <script src="assets/main.js"></script>
 </body>
 </html>
