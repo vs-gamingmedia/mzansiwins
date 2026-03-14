@@ -2,11 +2,24 @@
 (function() {
   'use strict';
 
-  /* ===== SAFE STORAGE (in-memory, persists for session) ===== */
+  /* ===== PERSISTENT STORAGE (cookies with in-memory fallback) ===== */
   var memStore = {};
   var store = {
-    get: function(k) { return memStore[k] || null; },
-    set: function(k, v) { memStore[k] = v; }
+    get: function(k) {
+      // Try cookie first
+      try {
+        var match = document.cookie.match(new RegExp('(?:^|; )' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+        if (match) return decodeURIComponent(match[1]);
+      } catch(e) {}
+      return memStore[k] || null;
+    },
+    set: function(k, v) {
+      memStore[k] = v;
+      try {
+        var d = new Date(); d.setTime(d.getTime() + 365*24*60*60*1000);
+        document.cookie = k + '=' + encodeURIComponent(v) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+      } catch(e) {}
+    }
   };
 
   /* ===== DARK MODE ===== */
@@ -47,7 +60,6 @@
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-    // Update hamburger icon
     var btn = document.querySelector('.hamburger');
     if (btn) {
       btn.innerHTML = menu.classList.contains('open')
@@ -70,7 +82,6 @@
     var el = document.getElementById(id);
     if (!el) return;
     el.classList.toggle('open');
-    // Rotate chevron
     var btn = el.previousElementSibling;
     if (btn) {
       var chevron = btn.querySelector('.mobile-chevron');
@@ -83,9 +94,7 @@
     var item = el.closest('.faq-item');
     if (!item) return;
     var wasOpen = item.classList.contains('open');
-    // Close all
     document.querySelectorAll('.faq-item.open').forEach(function(f) { f.classList.remove('open'); });
-    // Toggle clicked
     if (!wasOpen) item.classList.add('open');
   };
 
@@ -101,21 +110,27 @@
   };
 
   /* ===== STAR / FAVOURITE ===== */
+  var STAR_EMPTY = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg>';
+  var STAR_FILLED = '<svg width="20" height="20" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg>';
+
   function getStarred() {
     try { return JSON.parse(store.get('mw-starred') || '[]'); } catch(e) { return []; }
   }
   function saveStarred(arr) {
     store.set('mw-starred', JSON.stringify(arr));
   }
+
   window.toggleStar = function(brandId) {
     var starred = getStarred();
     var idx = starred.indexOf(brandId);
     if (idx >= 0) starred.splice(idx, 1); else starred.push(brandId);
     saveStarred(starred);
     updateStarButtons();
+    updateStarredNav();
     reorderStarred();
     updateBonusCounter();
   };
+
   function updateStarButtons() {
     var starred = getStarred();
     document.querySelectorAll('.star-btn').forEach(function(btn) {
@@ -129,6 +144,7 @@
       }
     });
   }
+
   function reorderStarred() {
     var starred = getStarred();
 
@@ -140,20 +156,18 @@
       cards.forEach(function(c) { cardGrid.appendChild(c); });
     }
 
-    // Reorder desktop table rows (betting-sites / casino-sites)
+    // Reorder desktop table rows
     var tbody = document.querySelector('.data-table tbody');
     if (tbody) {
       var rows = Array.from(tbody.querySelectorAll('tr[data-brand-id]'));
       stableSortStarred(rows, starred);
       rows.forEach(function(r, i) {
         tbody.appendChild(r);
-        // Update rank number in first cell
         var rankCell = r.querySelector('td:first-child');
         if (rankCell && rankCell.getAttribute('data-sort')) {
           rankCell.textContent = i + 1;
           rankCell.setAttribute('data-sort', i + 1);
         }
-        // Update row striping
         r.style.background = '';
       });
     }
@@ -176,7 +190,6 @@
   }
 
   function stableSortStarred(items, starred) {
-    // Tag each item with its original index for stable sort
     items.forEach(function(el, i) { el._origIdx = i; });
     items.sort(function(a, b) {
       var aId = a.getAttribute('data-brand-id') || '';
@@ -187,6 +200,7 @@
       return a._origIdx - b._origIdx;
     });
   }
+
   /* ===== BONUS COUNTER (listing pages) ===== */
   function updateBonusCounter() {
     var starredTotal = document.querySelector('.starred-total');
@@ -195,7 +209,6 @@
     var starred = getStarred();
     var total = 0;
     var count = 0;
-    // Use data from table rows or mobile cards
     var elements = document.querySelectorAll('[data-brand-id][data-bonus-val]');
     var seen = {};
     elements.forEach(function(el) {
@@ -211,20 +224,77 @@
     starredCount.textContent = count + ' bookmaker' + (count !== 1 ? 's' : '') + ' starred';
   }
 
+  /* ===== STARRED NAV BADGE + DROPDOWN ===== */
+  function updateStarredNav() {
+    var badge = document.querySelector('.starred-nav-badge');
+    if (!badge) return;
+    var starred = getStarred();
+    var starSvg = badge.querySelector(':scope > svg');
+    var countEl = badge.querySelector('.starred-nav-count');
+    var dropdown = badge.querySelector('.starred-dropdown');
+
+    // Update the star icon: filled amber when there are starred items
+    if (starSvg) {
+      if (starred.length > 0) {
+        starSvg.setAttribute('fill', '#f59e0b');
+        starSvg.setAttribute('stroke', '#f59e0b');
+      } else {
+        starSvg.setAttribute('fill', 'none');
+        starSvg.setAttribute('stroke', 'currentColor');
+      }
+    }
+
+    // Update count badge
+    if (countEl) {
+      countEl.textContent = starred.length;
+      countEl.style.display = starred.length > 0 ? 'flex' : 'none';
+    }
+
+    // Update dropdown
+    if (dropdown) {
+      if (starred.length === 0) {
+        dropdown.innerHTML = '<div class="starred-dropdown-empty">No favourites yet - star brands to track them here</div>';
+      } else {
+        // Determine path prefix based on current page depth
+        var path = window.location.pathname;
+        var prefix = '';
+        if (path.indexOf('/betting-site-review/') >= 0 || path.indexOf('/promo-code/') >= 0 ||
+            path.indexOf('/payment-methods/') >= 0 || path.indexOf('/news/') >= 0 ||
+            path.indexOf('/calculators/') >= 0 || path.indexOf('/compare/') >= 0 ||
+            path.indexOf('/authors/') >= 0 || path.indexOf('/guides/') >= 0 ||
+            path.indexOf('/casino-guides/') >= 0 || path.indexOf('/betting/') >= 0 ||
+            path.indexOf('/casino/') >= 0 || path.indexOf('/link/') >= 0) {
+          prefix = '../';
+        }
+        var items = '';
+        starred.forEach(function(id) {
+          // Try to find brand name from page data
+          var el = document.querySelector('[data-brand-id="' + id + '"]');
+          var name = el ? (el.getAttribute('data-name') || id) : id;
+          // Capitalise brand name nicely
+          name = name.replace(/(^|\s)\w/g, function(m) { return m.toUpperCase(); });
+          items += '<a href="' + prefix + 'promo-code/' + id + '.html" class="starred-dropdown-item">' +
+            '<span style="font-size:14px;font-weight:600">' + name + '</span>' +
+            '</a>';
+        });
+        dropdown.innerHTML = items;
+      }
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     updateStarButtons();
+    updateStarredNav();
     reorderStarred();
     updateBonusCounter();
   });
 
   /* ===== FILTER TABS ===== */
   window.filterCards = function(btn, filterVal) {
-    // Update active tab
     var tabs = btn.parentElement.querySelectorAll('.filter-tab, .filter-pill');
     tabs.forEach(function(t) { t.classList.remove('active'); });
     btn.classList.add('active');
 
-    // Filter cards - search up through section, then container, then page
     var container = btn.closest('.section, section')?.querySelector('.filterable-grid, .bookmaker-grid')
       || btn.closest('.container')?.querySelector('.filterable-grid, .bookmaker-grid')
       || document.querySelector('.filterable-grid, .bookmaker-grid');
@@ -241,7 +311,6 @@
         if (show) visible++;
       }
     });
-    // Update count display
     var countEl = document.querySelector('.sort-count');
     if (countEl) countEl.textContent = visible + ' method' + (visible !== 1 ? 's' : '');
   };
@@ -255,7 +324,6 @@
     var idx = Array.from(th.parentElement.children).indexOf(th);
     var dir = th.getAttribute('data-sort-dir') === 'asc' ? 'desc' : 'asc';
 
-    // Reset all headers
     th.parentElement.querySelectorAll('th').forEach(function(h) {
       h.removeAttribute('data-sort-dir');
       h.classList.remove('sorted');
@@ -275,7 +343,6 @@
     });
     rows.forEach(function(r) { tbody.appendChild(r); });
 
-    // Update sort icons
     th.parentElement.querySelectorAll('th .sort-icon').forEach(function(icon) {
       icon.textContent = '\u2195';
     });
@@ -312,7 +379,6 @@
     });
     items.forEach(function(i) { container.appendChild(i); });
   };
-
 
   /* ===== SEARCH TABLE (for listing pages) ===== */
   window.searchTable = function(input) {
@@ -353,7 +419,6 @@
   /* ===== SEARCH LISTING (table + cards) ===== */
   window.searchListing = function(input) {
     var val = input.value.toLowerCase();
-    // Search desktop table rows
     var table = document.querySelector('.data-table');
     if (table) {
       var rows = table.querySelectorAll('tbody tr');
@@ -363,7 +428,6 @@
         row.style.display = (name.indexOf(val) >= 0 || text.indexOf(val) >= 0) ? '' : 'none';
       });
     }
-    // Search mobile cards
     document.querySelectorAll('.listing-card').forEach(function(card) {
       var name = (card.getAttribute('data-name') || '').toLowerCase();
       card.style.display = name.indexOf(val) >= 0 ? '' : 'none';
@@ -373,13 +437,11 @@
 
 /* ===== NEWS CATEGORY FILTER ===== */
 function filterNews(btn, cat) {
-  // Update active tab
   document.querySelectorAll('.news-filter-tab').forEach(function(t) {
     t.classList.remove('active');
   });
   btn.classList.add('active');
 
-  // Filter cards
   var cards = document.querySelectorAll('.news-grid .news-card');
   var visible = 0;
   cards.forEach(function(card) {
@@ -391,11 +453,9 @@ function filterNews(btn, cat) {
     }
   });
 
-  // Show/hide empty state
   var empty = document.querySelector('.news-empty-state');
   if (empty) empty.style.display = visible === 0 ? '' : 'none';
 
-  // Update URL without reload
   if (cat === 'all') {
     history.replaceState(null, '', window.location.pathname);
   } else {
@@ -443,50 +503,4 @@ function filterNews(btn, cat) {
       col.classList.toggle('open');
     });
   });
-})();
-
-/* ===== STARRED NAV BADGE + DROPDOWN ===== */
-(function() {
-  function getStarred() {
-    try {
-      var raw = (typeof memStore !== 'undefined' ? memStore['mw-starred'] : null);
-      return JSON.parse(raw || '[]');
-    } catch(e) { return []; }
-  }
-  function updateStarredNav() {
-    var badge = document.querySelector('.starred-nav-badge');
-    if (!badge) return;
-    var starred = getStarred();
-    var countEl = badge.querySelector('.starred-nav-count');
-    var dropdown = badge.querySelector('.starred-dropdown');
-    if (countEl) {
-      countEl.textContent = starred.length;
-      countEl.style.display = starred.length > 0 ? 'flex' : 'none';
-    }
-    if (dropdown) {
-      if (starred.length === 0) {
-        dropdown.innerHTML = '<div class="starred-dropdown-empty">No favourites yet - star brands to track them here</div>';
-      } else {
-        var html = '';
-        starred.forEach(function(id) {
-          // Find brand info from page data attributes or use ID
-          var el = document.querySelector('[data-brand-id="' + id + '"]');
-          var name = el ? (el.getAttribute('data-name') || id) : id;
-          html += '<a href="promo-codes/' + id + '.html" class="starred-dropdown-item">' +
-            '<span style="font-size:14px;font-weight:600">' + name + '</span>' +
-            '</a>';
-        });
-        dropdown.innerHTML = html;
-      }
-    }
-  }
-  // Hook into existing toggleStar
-  var origToggleStar = window.toggleStar;
-  if (origToggleStar) {
-    window.toggleStar = function(brandId) {
-      origToggleStar(brandId);
-      updateStarredNav();
-    };
-  }
-  document.addEventListener('DOMContentLoaded', updateStarredNav);
 })();
