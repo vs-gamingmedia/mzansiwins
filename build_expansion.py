@@ -1,1 +1,59 @@
-IiIiCk16YW5zaVdpbnMgU2l0ZSBFeHBhbnNpb24gLSBOZXcgQ2F0ZWdvcnkgUGFnZXMKR2VuZXJhdGVzOiBzcG9ydCBwYWdlcywgY29tcGFyaXNvbiBwYWdlcywgcGF5bWVudC1ieS1tZXRob2QgcGFnZXMsIGd1aWRlcywKcXVpeiwgYm9udXMgZmluZGVyLCBhdXRob3IgcGFnZXMsIGFuZCBjYXNpbm8gZXF1aXZhbGVudHMuCkNhbGxlZCBmcm9tIGJ1aWxkX3NpdGUucHkgYWZ0ZXIgdGhlIG1haW4gYnVpbGQuCiIiIgppbXBvcnQganNvbiwgb3MsIHJhbmRvbQpmcm9tIGh0bWwgaW1wb3J0IGVzY2FwZSBhcyBfZQoKZGVmIGUocyk6CiAgICByZXR1cm4gX2Uoc3RyKHMpKSBpZiBzIGVsc2UgJycKCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiMgREFUQQojIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQp3aXRoIG9wZW4ob3MucGF0aC5qb2luKG9zLnBhdGguZGlybmFtZShfX2ZpbGVfXyksICdzaXRlX2V4cGFuc2lvbl9kYXRhLmpzb24nKSkgYXMgZjoKICAgIEVYUEFOU0lPTiA9IGpzb24ubG9hZChmKQoKQVVUSE9SUyA9IEVYUEFOU0lPTlsnYXV0aG9ycyddCkFVVEhPUlNfTUFQID0ge2FbJ2lkJ106IGEgZm9yIGEgaW4gQVVUSE9SU30KCiMgQXV0aG9yIHBob3RvIG1hcHBpbmcKQVVUSE9SX1BIT1RPUyA9IHsKICAgICdUaGFibyBNb2tvZW5hJzogJ2F1dGhvci10aGFiby1tb2tvZW5hLmpwZycsCiAgICAnTGVyYXRvIERsYW1pbmknOiAnYXV0aG9yLWxlcmF0by1kbGFtaW5pLmpwZycsCiAgICAnU2lwaG8gTmtvc2knOiAnYXV0aG9yLXNpcGhvLW5rb3NpLmpwZycsCiAgICAnTmFsZWRpIEtodW1hbG8nOiAnYXV0aG9yLW5hbGVkaS1raHVtYWxvLmpwZycsCn0KQVVUSE9SX05BTUVTX0xJU1QgPSBbJ1RoYWJvIE1va29lbmEnLCAnU2lwaG8gTmtvc2knLCAnTGVyYXRvIERsYW1pbmknLCAnTmFsZWRpIEtodW1hbG8nXQpkZWYgZ2V0X3Jldmlld19hdXRob3IoYnJhbmRfaWQpOgogICAgaWR4ID0gc3VtKG9yZChjKSBmb3IgYyBpbiBicmFuZF9pZCkgJSBsZW4oQVVUSE9SX05BTUVTX0xJU1QpCiAgICByZXR1cm4gQVVUSE9SX05BTUVTX0xJU1RbaWR4XQpkZWYgYXV0aG9yX2ltZ190YWcobmFtZSwgc2l6ZT04MCwgZGVwdGg9MCk6CiAgICBwcmVmaXggPSAnLi4vJyAqIGRlcHRoCiAgICBwaG90byA9IEFVVEhPUl9QSE9UT1MuZ2V0KG5hbWUpCiAgICBpZiBwaG90bzoKICAgICAgICByZXR1cm4gZic8aW1nIHNyYz0ie3ByZWZpeH1hc3NldHMve3Bob3RvfSIgYWx0PSJ7ZShuYW1lKX0iIHdpZHRoPSJ7c2l6ZX0iIGhlaWdodD0ie3NpemV9IiBzdHlsZT0id2lkdGg6e3NpemV9cHg7aGVpZ2h0OntzaXplfXB4O2JvcmRlci1yYWRpdXM6NTAlO29iamVjdC1maXQ6Y292ZXI7b2JqZWN0LXBvc2l0aW9uOmNlbnRlciAyMCU7ZmxleC1zaHJpbms6MCIgbG9hZGluZz0ibGF6eSI+JwogICAgaW5pdGlhbHMgPSAnJy5qb2luKHdbMF0gZm9yIHcgaW4gbmFtZS5zcGxpdCgpWzoyXSkudXBwZXIoKSBpZiBuYW1lIGVsc2UgJ01XJwogICAgcmV0dXJuIGYnPGRpdiBzdHlsZT0id2lkdGg6e3NpemV9cHg7aGVpZ2h0OntzaXplfXB4O2JvcmRlci1yYWRpdXM6NTAlO2JhY2tncm91bmQ6IzE2NDFCNDtkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW50ZXI7Y29sb3I6I2ZmZjtmb250LXdlaWdodDo3MDA7Zm9udC1zaXplOnttYXgoc2l6ZS8vMywxMil9cHg7ZmxleC1zaHJpbms6MCI+e2luaXRpYWxzfTwvZGl2PicKQkVUVElOR19HVUlERVMgPSBFWFBBTlNJT05bJ2JldHRpbmdfZ3VpZGVzJ10KQ0FTSU5PX0dVSURFUyA9IEVYUEFOU0lPTlsnY2FzaW5vX2d1aWRlcyddCkNPTVBBUklTT05TX0JFVFRJTkcgPSBFWFBBTlNJT05bJ2NvbXBhcmlzb25zX2JldHRpbmcnXQpDT01QQVJJU09OU19DQVNJTk8gPSBFWFBBTlNJT05bJ2NvbXBhcmlzb25zX2Nhc2lubyddClBBWU1FTlRfTUVUSE9EX1BBR0VTX0RBVEEgPSBFWFBBTlNJT05bJ3BheW1lbnRfbWV0aG9kX3BhZ2VzJ10KCgpkZWYgcnVuX2V4cGFuc2lvbihEQVRBLCBCUkFORFMsIEJSQU5EU19PUkRFUkVELCBwYWdlX2ZuLCBicmVhZGNydW1ic19mbiwgbG9nb19wYXRoX2ZuLAogICAgICAgICAgICAgICAgICBtYXNrZWRfZXhpdF9mbiwgYnJhbmRfYmdfZm4sIHJhdGluZ19iYWRnZV9mbiwgd3JpdGVfZmlsZV9mbiwKICAgICAgICAgICAgICAgICAgT1VULCBCQVNFX1VSTCwgSUNPTl9DSEVDSywgSUNPTl9YLCBJQ09OX1RST1BIWSwgSUNPTl9HSUZULAogICAgICAgICAgICAgICAgICBJQ09OX1NISUVMRCwgSUNPTl9DSEVWUk9OX1JJR0hULCBJQ09OX0NIRVZST05fRE9XTiwgSUNPTl9TVEFSLAogICAgICAgICAgICAgICAgICBJQ09OX0FSUk9XX0xFRlQsIGNhdGVnb3J5X2hlcm9fZm49Tm9uZSwgbmV3c19zaWRlYmFyX3RvcDVfZm49Tm9uZSk6
+"""
+MzansiWins Site Expansion - New Category Pages
+Generates: sport pages, comparison pages, payment-by-method pages, guides,
+quiz, bonus finder, author pages, and casino equivalents.
+Called from build_site.py after the main build.
+"""
+import json, os, random
+from html import escape as _e
+
+def e(s):
+    return _e(str(s)) if s else ''
+
+# ---------------------------------------------------------------------------
+# DATA
+# ---------------------------------------------------------------------------
+with open(os.path.join(os.path.dirname(__file__), 'site_expansion_data.json')) as f:
+    EXPANSION = json.load(f)
+
+AUTHORS = EXPANSION['authors']
+AUTHORS_MAP = {a['id']: a for a in AUTHORS}
+
+# Author photo mapping
+AUTHOR_PHOTOS = {
+    'Thabo Mokoena': 'author-thabo-mokoena.jpg',
+    'Lerato Dlamini': 'author-lerato-dlamini.jpg',
+    'Sipho Nkosi': 'author-sipho-nkosi.jpg',
+    'Naledi Khumalo': 'author-naledi-khumalo.jpg',
+}
+AUTHOR_NAMES_LIST = ['Thabo Mokoena', 'Sipho Nkosi', 'Lerato Dlamini', 'Naledi Khumalo']
+def get_review_author(brand_id):
+    idx = sum(ord(c) for c in brand_id) % len(AUTHOR_NAMES_LIST)
+    return AUTHOR_NAMES_LIST[idx]
+def author_img_tag(name, size=80, depth=0):
+    prefix = '../' * depth
+    photo = AUTHOR_PHOTOS.get(name)
+    if photo:
+        return f'<img src="{prefix}assets/{photo}" alt="{e(name)}" width="{size}" height="{size}" style="width:{size}px;height:{size}px;border-radius:50%;object-fit:cover;object-position:center 20%;flex-shrink:0" loading="lazy">'
+    initials = ''.join(w[0] for w in name.split()[:2]).upper() if name else 'MW'
+    return f'<div style="width:{size}px;height:{size}px;border-radius:50%;background:#1641B4;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:{max(size//3,12)}px;flex-shrink:0">{initials}</div>'
+BETTING_GUIDES = EXPANSION['betting_guides']
+CASINO_GUIDES = EXPANSION['casino_guides']
+COMPARISONS_BETTING = EXPANSION['comparisons_betting']
+COMPARISONS_CASINO = EXPANSION['comparisons_casino']
+PAYMENT_METHOD_PAGES_DATA = EXPANSION['payment_method_pages']
+
+
+def run_expansion(DATA, BRANDS, BRANDS_ORDERED, page_fn, breadcrumbs_fn, logo_path_fn,
+                  masked_exit_fn, brand_bg_fn, rating_badge_fn, write_file_fn,
+                  OUT, BASE_URL, ICON_CHECK, ICON_X, ICON_TROPHY, ICON_GIFT,
+                  ICON_SHIELD, ICON_CHEVRON_RIGHT, ICON_CHEVRON_DOWN, ICON_STAR,
+                  ICON_ARROW_LEFT, category_hero_fn=None, news_sidebar_top5_fn=None):
+    """Build all expansion pages. Returns list of (url_path, priority) for sitemap."""
+    sitemap_entries = []
+    os.makedirs(f'{OUT}/betting', exist_ok=True)
+    os.makedirs(f'{OUT}/casino', exist_ok=True)
+    os.makedirs(f'{OUT}/guides', exist_ok=True)
+    os.makedirs(f'{OUT}/casino-guides', exist_ok=True)
+    os.makedirs(f'{OUT}/compare', exist_ok=True)
+    os.makedirs(f'{OUT}/authors', exist_ok=True)
