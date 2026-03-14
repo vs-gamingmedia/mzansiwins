@@ -160,10 +160,16 @@
   </div>
 </div>
   <main>
-    <div class="container" style="padding-top:40px;padding-bottom:80px">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span><span class="text-secondary">News</span></nav>
-      <h1 class="page-title">SA Betting News</h1>
-      <p class="page-subtitle">Bonus drops, platform shakeups, and industry gossip from the Mzansi betting world. Fresh off the press.</p>
+    <section class="category-hero">
+      <div class="category-hero-deco" aria-hidden="true">&#x1F4F0;</div>
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span><span class="text-secondary">News</span></nav>
+        <h1 class="category-hero-title">SA Betting News</h1>
+        <p class="category-hero-sub">Bonus drops, platform shakeups, and industry gossip from the Mzansi betting world. Fresh off the press.</p>
+        
+      </div>
+    </section>
+    <div class="container" style="padding-top:32px;padding-bottom:80px">
       <div class="news-filter-bar"><button class="news-filter-tab active" data-cat="all" onclick="filterNews(this, 'all')">All <span class="news-filter-count">25</span></button><button class="news-filter-tab" data-cat="Industry" onclick="filterNews(this, 'Industry')" style="--tab-color:#0ea5e9">Industry <span class="news-filter-count">4</span></button><button class="news-filter-tab" data-cat="Features" onclick="filterNews(this, 'Features')" style="--tab-color:#8b5cf6">Features <span class="news-filter-count">4</span></button><button class="news-filter-tab" data-cat="Promos" onclick="filterNews(this, 'Promos')" style="--tab-color:#1641B4">Promos <span class="news-filter-count">4</span></button><button class="news-filter-tab" data-cat="Payments" onclick="filterNews(this, 'Payments')" style="--tab-color:#22c55e">Payments <span class="news-filter-count">3</span></button><button class="news-filter-tab" data-cat="Promotions" onclick="filterNews(this, 'Promotions')" style="--tab-color:#1641B4">Promotions <span class="news-filter-count">2</span></button><button class="news-filter-tab" data-cat="Bonus" onclick="filterNews(this, 'Bonus')" style="--tab-color:#16a34a">Bonus <span class="news-filter-count">2</span></button><button class="news-filter-tab" data-cat="Sports" onclick="filterNews(this, 'Sports')" style="--tab-color:#f5a623">Sports <span class="news-filter-count">2</span></button><button class="news-filter-tab" data-cat="Guides" onclick="filterNews(this, 'Guides')" style="--tab-color:#6366f1">Guides <span class="news-filter-count">1</span></button><button class="news-filter-tab" data-cat="Winners" onclick="filterNews(this, 'Winners')" style="--tab-color:#f59e0b">Winners <span class="news-filter-count">1</span></button><button class="news-filter-tab" data-cat="Regulation" onclick="filterNews(this, 'Regulation')" style="--tab-color:#dc2626">Regulation <span class="news-filter-count">1</span></button><button class="news-filter-tab" data-cat="Platform" onclick="filterNews(this, 'Platform')" style="--tab-color:#ef4444">Platform <span class="news-filter-count">1</span></button></div>
       <div class="news-empty-state" style="display:none;text-align:center;padding:48px 20px;color:var(--text-muted)">No stories found in this category.</div>
       <div class="news-layout" style="display:grid;grid-template-columns:1fr 300px;gap:32px;margin-top:24px">
