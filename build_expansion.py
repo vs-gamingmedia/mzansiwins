@@ -91,9 +91,11 @@ def run_expansion(DATA, BRANDS, BRANDS_ORDERED, page_fn, breadcrumbs_fn, logo_pa
         ex = exit_link(brand, depth)
         visit_btn = f'<a href="{ex}" target="_blank" rel="noopener noreferrer nofollow" class="btn-primary" style="font-size:13px;padding:10px 22px;border-radius:24px;white-space:nowrap">Visit Site</a>' if ex else ''
         rank_badge = f'<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;flex-shrink:0">#{rank}</span>' if rank else ''
-        # Pros (first 2)
+        # Pros & Cons (first 2 each)
         pros = brand.get('pros', [])[:2]
+        cons = brand.get('cons', [])[:2]
         pros_html = ''.join(f'<li style="font-size:13px;line-height:1.6;color:var(--text-secondary);margin-bottom:4px;padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a">&#10003;</span>{e(p)}</li>' for p in pros)
+        cons_html = ''.join(f'<li style="font-size:13px;line-height:1.6;color:var(--text-secondary);margin-bottom:4px;padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#ef4444">&#10007;</span>{e(c)}</li>' for c in cons)
         prefix = '../' * depth
         return f'''<div class="expansion-brand-card" style="background:var(--surface);border:var(--card-border);border-radius:12px;padding:24px;margin-bottom:16px">
           <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
@@ -113,7 +115,10 @@ def run_expansion(DATA, BRANDS, BRANDS_ORDERED, page_fn, breadcrumbs_fn, logo_pa
               {visit_btn}
             </div>
           </div>
-          <ul style="margin-top:14px;padding:0;list-style:none">{pros_html}</ul>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+            <ul style="padding:0;list-style:none;margin:0">{pros_html}</ul>
+            <ul style="padding:0;list-style:none;margin:0">{cons_html}</ul>
+          </div>
           <p style="font-size:12px;color:var(--text-muted);margin-top:10px">{e(brand.get('tcs','18+ T&Cs apply.'))}</p>
         </div>'''
 
@@ -1471,6 +1476,56 @@ def _generate_guide_content(guides, category, DATA, BRANDS, brands_map):
 
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Best Bookmakers for Rugby</h3>
             <p style="font-size:15px;line-height:1.75;color:var(--text-secondary)">{top3[0]}, {top3[1]}, and {top3[2]} offer the deepest rugby markets among SA bookmakers. Look for sites that provide player prop bets for Test matches - these offer some of the best value if you know the game well.</p>'''
+        elif gid == 'aviator-crash-games-guide-south-africa':
+            content[gid] = f'''
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:12px">What Are Crash Games?</h2>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Crash games are a category of fast-paced casino games where a multiplier rises from 1.00x and can "crash" at any moment. Your job is to cash out before the crash. The longer you wait, the higher the potential payout - but if the game crashes before you cash out, you lose your stake. It is simple, quick, and has become one of the most popular game types at South African online casinos.</p>
+
+            <h2 style="font-size:18px;font-weight:700;margin-top:32px;margin-bottom:16px">Popular Crash Games in South Africa</h2>
+
+            <div style="background:var(--surface-2);border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid var(--accent)">
+              <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">&#9992;&#65039; Aviator (Spribe)</h3>
+              <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:8px">The game that started the crash game craze in South Africa. A plane takes off and the multiplier climbs. Cash out before the plane flies away. Aviator uses a provably fair algorithm so every round can be independently verified. Available at most licensed SA bookmakers including {top3[0]}, {top3[1]}, and {top3[2]}.</p>
+              <p style="font-size:13px;color:var(--text-muted)"><strong>Provider:</strong> Spribe &bull; <strong>Min bet:</strong> R1 &bull; <strong>Max multiplier:</strong> 100x+ &bull; <strong>RTP:</strong> 97%</p>
+            </div>
+
+            <div style="background:var(--surface-2);border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid var(--accent)">
+              <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">&#128640; JetX (SmartSoft Gaming)</h3>
+              <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:8px">JetX features a rocket that flies higher as the multiplier climbs. The gameplay is similar to Aviator but with a different visual style and the ability to place up to three simultaneous bets. Popular at SA sites for its smooth interface and fast rounds.</p>
+              <p style="font-size:13px;color:var(--text-muted)"><strong>Provider:</strong> SmartSoft Gaming &bull; <strong>Min bet:</strong> R1 &bull; <strong>Max multiplier:</strong> unlimited &bull; <strong>RTP:</strong> 97%</p>
+            </div>
+
+            <div style="background:var(--surface-2);border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid var(--accent)">
+              <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">&#128125; Spaceman (Pragmatic Play)</h3>
+              <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:8px">Spaceman puts an astronaut on screen and lets you watch the multiplier climb as he floats through space. It offers a 50% partial cash-out feature, letting you lock in some profit while keeping the rest in play. This makes it more strategic than some other crash games.</p>
+              <p style="font-size:13px;color:var(--text-muted)"><strong>Provider:</strong> Pragmatic Play &bull; <strong>Min bet:</strong> R1 &bull; <strong>Max multiplier:</strong> 5,000x &bull; <strong>RTP:</strong> 96.5%</p>
+            </div>
+
+            <div style="background:var(--surface-2);border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid #dc2626">
+              <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">&#9992;&#65039; Red Baron (Evolution)</h3>
+              <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:8px">The newest addition to the SA crash games market, Red Baron from Evolution features a vintage biplane theme. Like other crash games the multiplier rises as the Red Baron flies - cash out before the plane disappears. Evolution is one of the biggest names in live casino, and their move into crash games signals how popular the category has become.</p>
+              <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:8px">Red Baron is currently available at <a href="../betting-site-review/betxchange.html" style="color:var(--accent);font-weight:600">betXchange</a>, with a live promotion running until 29 March 2026 where R2 bets earn entries into a R200,000 shopping voucher lucky draw.</p>
+              <p style="font-size:13px;color:var(--text-muted)"><strong>Provider:</strong> Evolution &bull; <strong>Min bet:</strong> R2 &bull; <strong>Type:</strong> Crash/Multiplier</p>
+            </div>
+
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">How Crash Games Work</h3>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Every crash game follows the same core mechanic: a multiplier starts at 1.00x and rises. It can crash at any point - sometimes at 1.01x, sometimes at 50x or higher. You decide when to cash out. If you cash out at 3.00x on a R10 bet, you get R30 back. If the game crashes before you press the button, you lose your R10.</p>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Most crash games use a provably fair algorithm, which means you can verify after each round that the outcome was not manipulated. This transparency is one reason crash games have become so popular - players can check the maths themselves.</p>
+
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Strategies for Crash Games</h3>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">No strategy can guarantee wins, but some approaches help manage your bankroll:</p>
+            <ul style="padding-left:0;list-style:none;margin-bottom:16px">
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span><strong>Low multiplier grind</strong> - Cash out consistently at 1.5x-2.0x for frequent small wins</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span><strong>Auto cash-out</strong> - Set an automatic cash-out target to remove emotion from the decision</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span><strong>Split bets</strong> - Place two smaller bets: cash one out early for safety, let the other ride for a higher multiplier</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span><strong>Session limits</strong> - Set a loss limit and stop-win target before you start playing</li>
+            </ul>
+
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Where to Play Crash Games in SA</h3>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Most licensed South African betting sites now offer at least one crash game. Aviator is the most widely available, but JetX, Spaceman, and Red Baron are growing fast. Check our <a href="../casino-sites.html" style="color:var(--accent);font-weight:600">casino sites</a> page for the full list of licensed operators, or browse <a href="../promo-codes.html" style="color:var(--accent);font-weight:600">promo codes</a> for welcome bonuses you can use on crash games.</p>
+
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Responsible Play</h3>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary)">Crash games are fast and can be addictive. The speed of rounds means you can go through your bankroll quickly if you are not careful. Always set limits, use the auto cash-out feature, and never chase losses. If you need help, visit our <a href="../responsible-gambling-policy.html" style="color:var(--accent);font-weight:600">responsible gambling</a> page for SA support resources.</p>'''
         else:
             # Generic guide content template
             title = g['title']
@@ -1501,3 +1556,411 @@ def _generate_guide_content(guides, category, DATA, BRANDS, brands_map):
             <p style="font-size:15px;line-height:1.75;color:var(--text-secondary)">For the best experience, we recommend {top3[0]}, {top3[1]}, and {top3[2]}. All three are licensed, well-established, and offer competitive odds across a wide range of markets. Check our individual reviews for detailed breakdowns.</p>'''
 
     return content
+
+
+# ============================================
+# CRASH GAMES CATEGORY & SA SLOTS SECTION
+# ============================================
+
+def build_crash_games_category(page_fn, category_hero_fn, breadcrumbs_fn, write_file_fn,
+                                BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                                rating_badge_fn, OUT, BASE_URL):
+    """Build crash games category page with sub-page links."""
+    os.makedirs(f'{OUT}/crash-games', exist_ok=True)
+
+    # Crash games data
+    crash_games = [
+        {
+            'id': 'aviator',
+            'name': 'Aviator',
+            'provider': 'Spribe',
+            'description': 'The original crash game. Watch the plane fly and cash out before it disappears. Provably fair with RTP of 97%.',
+            'rtp': '97%',
+            'icon': '✈️',
+        },
+        {
+            'id': 'jetx',
+            'name': 'JetX',
+            'provider': 'SmartSoft Gaming',
+            'description': 'A rocket launches and the multiplier climbs. Three simultaneous bets possible. Multiplier can reach 25,000x.',
+            'rtp': '97%',
+            'icon': '🚀',
+        },
+        {
+            'id': 'spaceman',
+            'name': 'Spaceman',
+            'provider': 'Pragmatic Play',
+            'description': 'An astronaut floats through space as the multiplier rises. Features 50% partial cash-out for strategic play.',
+            'rtp': '96.5%',
+            'icon': '🧑‍🚀',
+        },
+        {
+            'id': 'red-baron',
+            'name': 'Red Baron',
+            'provider': 'Evolution',
+            'description': 'Vintage biplane theme from Evolution Gaming. The newest crash game in the SA market with smooth animations.',
+            'rtp': '96.36%',
+            'icon': '🔴',
+        },
+    ]
+
+    # Build game cards
+    game_cards = ''
+    for g in crash_games:
+        game_cards += f"""<a href="crash-games/{g['id']}.html" class="card" style="padding:24px;display:flex;flex-direction:column;gap:12px;min-height:220px">
+          <div style="font-size:40px;line-height:1">{g['icon']}</div>
+          <h3 style="font-size:18px;font-weight:700">{e(g['name'])}</h3>
+          <p style="font-size:13px;color:var(--text-muted)">by {e(g['provider'])} &middot; RTP: {g['rtp']}</p>
+          <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;flex:1">{e(g['description'])}</p>
+          <span style="font-size:13px;color:var(--accent);font-weight:600">Read Full Guide &rarr;</span>
+        </a>"""
+
+    # Top bookmakers for crash games
+    top_crash = BRANDS[:5]
+    bookie_cards = ''
+    for i, b in enumerate(top_crash):
+        logo = logo_path_fn(b, 1)
+        logo_html = f'<img src="{logo}" alt="{e(b["name"])}" style="width:32px;height:32px;object-fit:contain;border-radius:6px;background:{brand_bg_fn(b)};padding:2px;border:1px solid var(--border)" loading="lazy">' if logo else ''
+        exit_link = masked_exit_fn(b, 1)
+        bookie_cards += f"""<div class="card" style="padding:16px;display:flex;align-items:center;gap:12px">
+          <span style="font-size:14px;font-weight:700;color:var(--text-muted)">#{i+1}</span>
+          {logo_html}
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:600">{e(b['name'])}</div>
+            <div style="font-size:12px;color:var(--bonus);font-weight:500">{e(b.get('welcomeBonusAmount',''))}</div>
+          </div>
+          {f'<a href="{exit_link}" target="_blank" rel="noopener noreferrer nofollow" class="btn-primary btn-sm" style="font-size:12px">Play</a>' if exit_link else ''}
+        </div>"""
+
+    hero = category_hero_fn(
+        'Crash Games in South Africa',
+        'The complete guide to Aviator, JetX, Spaceman, Red Baron, and other crash games available at SA betting sites.',
+        [{"label": "Home", "href": "index.html"}, {"label": "Casino", "href": "casino-sites.html"}, {"label": "Crash Games"}], 1,
+        deco_icon='&#x2708;'
+    )
+
+    body = f"""
+    {hero}
+    <div class="container" style="padding-top:32px;padding-bottom:80px">
+      <div style="max-width:760px;margin-bottom:32px">
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Crash games are the fastest-growing casino game category in South Africa. Instead of spinning reels or playing cards, you watch a multiplier rise and decide when to cash out. Simple concept, high adrenaline.</p>
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary)">All crash games listed below are available at licensed SA bookmakers. Explore our detailed guides for each game, or find the best bookmakers to play them.</p>
+      </div>
+
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">Popular Crash Games</h2>
+      <div class="grid-2" style="margin-bottom:40px">{game_cards}</div>
+
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">Best SA Bookmakers for Crash Games</h2>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:40px;max-width:600px">{bookie_cards}</div>
+
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:760px">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:12px">How Crash Games Work</h2>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">Every crash game follows the same core mechanic: a multiplier starts at 1.00x and rises. It can crash at any moment &mdash; sometimes at 1.01x, sometimes above 100x. You decide when to cash out. If you cash out at 3.00x on a R10 bet, you receive R30. If the game crashes before you press the button, you lose your stake.</p>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">Most crash games use a provably fair algorithm, meaning you can verify after each round that the outcome was not manipulated. This transparency is one reason crash games have become so popular.</p>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary)">For detailed strategy tips and game-specific guides, click on any crash game above. 18+ only. Gamble responsibly.</p>
+      </div>
+
+      <div style="margin-top:32px">
+        <a href="../casino-guides/aviator-crash-games-guide-south-africa.html" style="color:var(--accent);font-weight:600;font-size:14px">Read our in-depth Crash Games Guide &rarr;</a>
+      </div>
+    </div>"""
+
+    cat_page = page_fn('Crash Games South Africa - Aviator, JetX, Spaceman, Red Baron | MzansiWins',
+                       'Complete guide to crash games in SA. Play Aviator, JetX, Spaceman, Red Baron at licensed bookmakers.',
+                       'crash-games', body, depth=1, active_nav='casino')
+    write_file_fn(f'{OUT}/crash-games/index.html', cat_page)
+
+    # Build individual crash game sub-pages
+    for g in crash_games:
+        _build_crash_game_subpage(g, crash_games, page_fn, breadcrumbs_fn, write_file_fn,
+                                  BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                                  rating_badge_fn, OUT, BASE_URL)
+
+    return [('crash-games', 0.8)] + [(f'crash-games/{g["id"]}', 0.7) for g in crash_games]
+
+
+def _build_crash_game_subpage(game, all_games, page_fn, breadcrumbs_fn, write_file_fn,
+                               BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                               rating_badge_fn, OUT, BASE_URL):
+    """Build individual crash game page."""
+    bc = breadcrumbs_fn([
+        {"label": "Home", "href": "index.html"},
+        {"label": "Casino", "href": "casino-sites.html"},
+        {"label": "Crash Games", "href": "crash-games/index.html"},
+        {"label": game['name']}
+    ], 1)
+
+    # Content varies by game
+    extra_content = {
+        'aviator': """
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Aviator Strategy Tips</h3>
+            <ul style="list-style:none;padding:0;margin-bottom:16px">
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Consider using auto-cashout at lower multipliers (1.5x-2x) for consistent small wins</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>The provably fair system means no pattern exists — each round is independent</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Use the two-bet feature: one safe low cashout, one risky high target</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Set a loss limit before you start playing and stick to it</li>
+            </ul>""",
+        'jetx': """
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">JetX Features</h3>
+            <ul style="list-style:none;padding:0;margin-bottom:16px">
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Place up to 3 simultaneous bets per round for different strategies</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Maximum multiplier of 25,000x — theoretical max payout is massive</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Galaxy jackpot feature adds extra winning potential</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Provably fair — verify each round result independently</li>
+            </ul>""",
+        'spaceman': """
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Spaceman Unique Features</h3>
+            <ul style="list-style:none;padding:0;margin-bottom:16px">
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>50% partial cash-out lets you lock in some profit while keeping the rest active</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Pragmatic Play — one of the world's biggest game providers</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Clean space theme with smooth animations</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Available at most licensed SA betting sites</li>
+            </ul>""",
+        'red-baron': """
+            <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Red Baron Details</h3>
+            <ul style="list-style:none;padding:0;margin-bottom:16px">
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Evolution — the world leader in live casino games</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Vintage World War I biplane theme with excellent production quality</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>One of the newest crash games available in SA</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>RTP of 96.36% — standard for crash games</li>
+            </ul>""",
+    }
+
+    top5 = BRANDS[:5]
+    bookies_html = ''
+    for i, b in enumerate(top5):
+        logo = logo_path_fn(b, 1)
+        logo_html = f'<img src="{logo}" alt="{e(b["name"])}" style="width:28px;height:28px;object-fit:contain;border-radius:4px;background:{brand_bg_fn(b)};padding:2px;border:1px solid var(--border)" loading="lazy">' if logo else ''
+        exit_link = masked_exit_fn(b, 1)
+        bookies_html += f"""<tr>
+          <td style="white-space:nowrap"><div style="display:flex;align-items:center;gap:8px">{logo_html} <a href="../betting-site-review/{b['id']}.html" style="color:var(--accent);font-weight:600">{e(b['name'])}</a></div></td>
+          <td style="color:var(--bonus);font-weight:600;font-size:13px">{e(b.get('welcomeBonusAmount',''))}</td>
+          <td style="text-align:center">{rating_badge_fn(b['overallRating'], 'sm')}</td>
+          <td style="text-align:center">{f'<a href="{exit_link}" target="_blank" rel="noopener noreferrer nofollow" class="btn-primary btn-sm" style="font-size:11px;padding:4px 10px">Play</a>' if exit_link else ''}</td>
+        </tr>"""
+
+    # Related games
+    related = [g2 for g2 in all_games if g2['id'] != game['id']]
+    related_html = ''
+    for r in related:
+        related_html += f'<a href="{r["id"]}.html" class="card" style="padding:16px;display:flex;align-items:center;gap:12px"><span style="font-size:24px">{r["icon"]}</span><div><div style="font-size:14px;font-weight:600">{e(r["name"])}</div><div style="font-size:12px;color:var(--text-muted)">by {e(r["provider"])}</div></div></a>'
+
+    body = f"""
+    <div style="background:var(--surface-2);padding:40px 0 32px;border-bottom:1px solid var(--border)">
+      <div class="container">
+        {bc}
+        <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
+          <span style="font-size:48px">{game['icon']}</span>
+          <div>
+            <h1 style="font-size:clamp(1.5rem, 4vw, 2rem);font-weight:800;letter-spacing:-0.02em">{game['name']} Guide South Africa</h1>
+            <p style="font-size:14px;color:var(--text-muted)">by {e(game['provider'])} &middot; RTP: {game['rtp']}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="padding-top:32px;padding-bottom:80px">
+      <div style="max-width:760px">
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">{e(game['description'])}</p>
+
+        {extra_content.get(game['id'], '')}
+
+        <h2 style="font-size:18px;font-weight:700;margin-top:32px;margin-bottom:16px">Best SA Bookmakers for {game['name']}</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>Bookmaker</th><th>Welcome Bonus</th><th>Rating</th><th>Play</th></tr></thead>
+            <tbody>{bookies_html}</tbody>
+          </table>
+        </div>
+
+        <h2 style="font-size:18px;font-weight:700;margin-top:32px;margin-bottom:16px">Other Crash Games</h2>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:32px">{related_html}</div>
+
+        <div style="background:var(--accent-light);border-radius:10px;padding:20px;margin-top:24px">
+          <p style="font-size:14px;color:var(--text-secondary);line-height:1.6"><strong>Responsible gambling:</strong> Crash games are entertainment, not a guaranteed way to make money. Set limits, never chase losses, and contact the SA Responsible Gambling Foundation on 0800 006 008 if you need help. 18+ only.</p>
+        </div>
+      </div>
+    </div>"""
+
+    pg = page_fn(f'{game["name"]} Crash Game SA - Play at Licensed Bookmakers | MzansiWins',
+                 f'Complete guide to {game["name"]} crash game in South Africa. RTP, strategy tips, and best bookmakers.',
+                 f'crash-games/{game["id"]}', body, depth=1, active_nav='casino')
+    write_file_fn(f'{OUT}/crash-games/{game["id"]}.html', pg)
+
+
+def build_sa_slots_section(page_fn, category_hero_fn, breadcrumbs_fn, write_file_fn,
+                            BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                            rating_badge_fn, OUT, BASE_URL):
+    """Build SA Slots category page and individual game pages."""
+    os.makedirs(f'{OUT}/sa-slots', exist_ok=True)
+
+    sa_slots = [
+        {
+            'id': 'amakhosi-cash',
+            'name': 'Amakhosi Cash',
+            'tagline': 'Kaizer Chiefs Megaways',
+            'provider': 'SpinaSlots',
+            'image': 'slot-amakhosi-cash.jpg',
+            'source_url': 'https://spinaslots.co.za/slot-games/amakhosi-cash/',
+            'description': 'A Megaways slot themed around Kaizer Chiefs, one of South Africa\'s most iconic football clubs. Features up to 117,649 ways to win, cascading reels, and a free spins bonus round. The football theme resonates strongly with SA players.',
+            'rtp': '96.5%',
+            'features': ['Megaways mechanic', 'Cascading reels', 'Free spins bonus', 'Kaizer Chiefs theme', 'Up to 117,649 ways to win'],
+        },
+        {
+            'id': 'jack-parow',
+            'name': 'Jack Parow Heeltyd Speeltyd',
+            'tagline': 'Rapper-themed slot',
+            'provider': 'SpinaSlots',
+            'image': 'slot-jack-parow.jpg',
+            'source_url': 'https://spinaslots.co.za/slot-games/jack-parow-heeltyd-speeltyd-slot/',
+            'description': 'Based on legendary South African rapper Jack Parow, this slot captures the energy and humour of one of SA\'s biggest music personalities. Expect a fun, irreverent experience with local flavour.',
+            'rtp': '96%',
+            'features': ['Jack Parow theme', 'Local SA flavour', 'Bonus rounds', 'Music-themed symbols'],
+        },
+        {
+            'id': 'isibaya-queens',
+            'name': 'Isibaya Queens',
+            'tagline': 'African queens with expanding reels',
+            'provider': 'SpinaSlots',
+            'image': 'slot-isibaya-queens.jpg',
+            'source_url': 'https://spinaslots.co.za/slot-games/isibaya-queens/',
+            'description': 'A visually rich slot celebrating powerful African queens. Features expanding reels that can unlock additional paylines during bonus rounds. The artwork draws on traditional African royalty imagery.',
+            'rtp': '96.2%',
+            'features': ['Expanding reels', 'African royalty theme', 'Bonus rounds', 'Beautiful artwork', 'Multiple paylines'],
+        },
+        {
+            'id': 'liefde',
+            'name': 'Liefde',
+            'tagline': 'Liefde by die Dam festival theme',
+            'provider': 'SpinaSlots',
+            'image': 'slot-liefde.jpg',
+            'source_url': 'https://spinaslots.co.za/slot-games/liefde-slot/',
+            'description': 'Inspired by the popular "Liefde by die Dam" music festival in South Africa. This slot combines romance, music, and local culture into a unique slot experience that feels distinctly South African.',
+            'rtp': '96%',
+            'features': ['Festival theme', 'South African culture', 'Music symbols', 'Free spins', 'Wild multipliers'],
+        },
+        {
+            'id': 'babalas',
+            'name': 'Babalas',
+            'tagline': 'Humorous multiplier slot',
+            'provider': 'SpinaSlots',
+            'image': 'slot-babalas.jpg',
+            'source_url': 'https://spinaslots.co.za/slot-games/babalas-slot/',
+            'description': 'A humorous take on the day after a big night out ("babalas" is South African slang for hangover). Features multiplier wilds and a bonus round that gets progressively more chaotic. Light-hearted fun with solid mechanics.',
+            'rtp': '96%',
+            'features': ['Humorous theme', 'Multiplier wilds', 'Progressive bonus', 'SA slang theme', 'Chaotic bonus round'],
+        },
+    ]
+
+    # Category page
+    game_cards = ''
+    for s in sa_slots:
+        game_cards += f"""<a href="sa-slots/{s['id']}.html" class="card" style="padding:0;overflow:hidden;display:flex;flex-direction:column">
+          <div style="aspect-ratio:300/229;background:var(--surface-2);overflow:hidden">
+            <img src="assets/{s['image']}" alt="{e(s['name'])}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+          </div>
+          <div style="padding:16px;flex:1;display:flex;flex-direction:column">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:4px">{e(s['name'])}</h3>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px">{e(s['tagline'])} &middot; RTP: {s['rtp']}</p>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.5;flex:1">{e(s['description'][:120])}...</p>
+            <span style="font-size:13px;color:var(--accent);font-weight:600;margin-top:12px">Read Review &rarr;</span>
+          </div>
+        </a>"""
+
+    hero = category_hero_fn(
+        'South African Slots',
+        'Slot games made for South African players — featuring local themes, SA culture, and familiar faces.',
+        [{"label": "Home", "href": "index.html"}, {"label": "Casino", "href": "casino-sites.html"}, {"label": "SA Slots"}], 0,
+        deco_icon='&#x1F3B0;'
+    )
+
+    body = f"""
+    {hero}
+    <div class="container" style="padding-top:32px;padding-bottom:80px">
+      <div style="max-width:760px;margin-bottom:32px">
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">These slots are designed specifically for the South African market. From Kaizer Chiefs Megaways to a Jack Parow-themed slot, these games celebrate local culture in ways that international slots simply cannot.</p>
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary)">All games are developed by SpinaSlots and available at select licensed SA bookmakers.</p>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:40px">{game_cards}</div>
+
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:760px">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:12px">Why Play South African Slots?</h2>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">International slot providers create games for a global audience. These SA slots are different — they feature local themes, cultural references, and characters that South African players recognise and connect with.</p>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary)">Whether it is the Kaizer Chiefs branding of Amakhosi Cash, the festival vibes of Liefde, or the humour of Babalas, these games feel like home. The mechanics are solid too — Megaways, expanding reels, multiplier wilds, and free spins features are all represented.</p>
+      </div>
+    </div>"""
+
+    cat_page = page_fn('South African Slots - SA-Themed Slot Games | MzansiWins',
+                       'Discover slot games made for South Africa. Amakhosi Cash, Jack Parow, Isibaya Queens, Liefde, and Babalas reviewed.',
+                       'sa-slots', body, depth=0, active_nav='casino')
+    write_file_fn(f'{OUT}/sa-slots/index.html', cat_page)
+
+    # Build individual slot pages
+    for s in sa_slots:
+        _build_sa_slot_page(s, sa_slots, page_fn, breadcrumbs_fn, write_file_fn,
+                            BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                            rating_badge_fn, OUT, BASE_URL)
+
+    return [('sa-slots', 0.8)] + [(f'sa-slots/{s["id"]}', 0.7) for s in sa_slots]
+
+
+def _build_sa_slot_page(slot, all_slots, page_fn, breadcrumbs_fn, write_file_fn,
+                         BRANDS, masked_exit_fn, brand_bg_fn, logo_path_fn,
+                         rating_badge_fn, OUT, BASE_URL):
+    """Build individual SA slot game page."""
+    bc = breadcrumbs_fn([
+        {"label": "Home", "href": "index.html"},
+        {"label": "Casino", "href": "casino-sites.html"},
+        {"label": "SA Slots", "href": "sa-slots/index.html"},
+        {"label": slot['name']}
+    ], 1)
+
+    features_html = ''.join(f'<li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>{e(f)}</li>' for f in slot['features'])
+
+    related = [s2 for s2 in all_slots if s2['id'] != slot['id']]
+    related_html = ''
+    for r in related:
+        related_html += f'<a href="{r["id"]}.html" class="card" style="padding:12px;display:flex;align-items:center;gap:12px"><img src="../assets/{r["image"]}" alt="{e(r["name"])}" style="width:48px;height:37px;object-fit:cover;border-radius:6px" loading="lazy"><div><div style="font-size:14px;font-weight:600">{e(r["name"])}</div><div style="font-size:12px;color:var(--text-muted)">{e(r["tagline"])}</div></div></a>'
+
+    body = f"""
+    <div style="background:var(--surface-2);padding:40px 0 32px;border-bottom:1px solid var(--border)">
+      <div class="container">
+        {bc}
+        <div style="display:flex;align-items:flex-start;gap:20px;margin-top:16px;flex-wrap:wrap">
+          <img src="../assets/{slot['image']}" alt="{e(slot['name'])}" style="width:120px;border-radius:10px;border:1px solid var(--border)" loading="lazy">
+          <div>
+            <h1 style="font-size:clamp(1.5rem, 4vw, 2rem);font-weight:800;letter-spacing:-0.02em">{e(slot['name'])}</h1>
+            <p style="font-size:14px;color:var(--text-muted)">{e(slot['tagline'])} &middot; by {e(slot['provider'])} &middot; RTP: {slot['rtp']}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="padding-top:32px;padding-bottom:80px">
+      <div style="max-width:760px">
+        <p style="font-size:16px;line-height:1.75;color:var(--text-secondary);margin-bottom:20px">{e(slot['description'])}</p>
+
+        <h2 style="font-size:18px;font-weight:700;margin-top:24px;margin-bottom:12px">Key Features</h2>
+        <ul style="list-style:none;padding:0;margin-bottom:24px">{features_html}</ul>
+
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div><span style="font-size:12px;color:var(--text-muted)">Provider</span><br><strong>{e(slot['provider'])}</strong></div>
+            <div><span style="font-size:12px;color:var(--text-muted)">RTP</span><br><strong>{slot['rtp']}</strong></div>
+            <div><span style="font-size:12px;color:var(--text-muted)">Theme</span><br><strong>{e(slot['tagline'])}</strong></div>
+          </div>
+        </div>
+
+        <h2 style="font-size:18px;font-weight:700;margin-top:32px;margin-bottom:16px">Other SA Slots</h2>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:32px">{related_html}</div>
+
+        <div style="text-align:center;margin-top:24px">
+          <a href="../casino-sites.html" class="btn-outline" style="margin-right:8px">All Casino Sites</a>
+          <a href="index.html" class="btn-outline">All SA Slots</a>
+        </div>
+      </div>
+    </div>"""
+
+    pg = page_fn(f'{slot["name"]} Slot Review - South African Slot Game | MzansiWins',
+                 f'{slot["name"]} slot review. {slot["tagline"]}. Play this SA-themed slot at licensed bookmakers.',
+                 f'sa-slots/{slot["id"]}', body, depth=1, active_nav='casino')
+    write_file_fn(f'{OUT}/sa-slots/{slot["id"]}.html', pg)

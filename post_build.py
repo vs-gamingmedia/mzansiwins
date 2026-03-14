@@ -99,32 +99,73 @@ for html_file in glob.glob(f'{OUT}/**/*.html', recursive=True):
 print(f"   Cleaned dashes in {dash_count} files")
 
 # ============================================================
-# 4. MINIFY CSS
+# 3b. ENCODE EMAIL ADDRESSES (prevent Cloudflare email obfuscation)
+# ============================================================
+print("3b. Encoding email addresses to prevent Cloudflare obfuscation...")
+email_count = 0
+def encode_email_display(m):
+    """Encode visible email text with HTML entities so Cloudflare doesn't replace it."""
+    email = m.group(0)
+    return ''.join(f'&#x{ord(c):x};' for c in email)
+
+for html_file in glob.glob(f'{OUT}/**/*.html', recursive=True):
+    with open(html_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    original = content
+    # Encode mailto: href values
+    content = re.sub(r'mailto:([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})',
+                     lambda m: 'mailto:' + ''.join(f'&#x{ord(c):x};' for c in m.group(1)),
+                     content)
+    # Encode visible email text (not inside attributes)
+    content = re.sub(r'>([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})<',
+                     lambda m: '>' + ''.join(f'&#x{ord(c):x};' for c in m.group(1)) + '<',
+                     content)
+    if content != original:
+        with open(html_file, 'w', encoding='utf-8') as f:
+            f.write(content)
+        email_count += 1
+print(f"   Encoded emails in {email_count} files")
+
+# ============================================================
+# 4. MINIFY CSS (rcssmin)
 # ============================================================
 print("4. Minifying CSS...")
-css_file = f'{OUT}/assets/style.css'
-with open(css_file, 'r') as f:
-    css = f.read()
+try:
+    import rcssmin
+    css_file = f'{OUT}/assets/style.css'
+    with open(css_file, 'r') as f:
+        css = f.read()
+    original_size = len(css)
+    css_min = rcssmin.cssmin(css)
+    new_size = len(css_min)
+    saved = original_size - new_size
+    print(f"   CSS: {original_size:,} -> {new_size:,} bytes (saved {saved:,} bytes, {saved/original_size*100:.1f}%)")
+    with open(css_file, 'w') as f:
+        f.write(css_min)
+except ImportError:
+    print("   rcssmin not installed, skipping CSS minification")
 
-original_size = len(css)
-
-# Basic CSS minification - remove comments, excess whitespace
-css_min = re.sub(r'/\*.*?\*/', '', css, flags=re.DOTALL)  # Remove comments
-css_min = re.sub(r'\s*\n\s*', '\n', css_min)  # Remove leading/trailing whitespace per line
-css_min = re.sub(r'\n+', '\n', css_min)  # Collapse multiple newlines
-css_min = re.sub(r'\s*{\s*', '{', css_min)  # Remove space around {
-css_min = re.sub(r'\s*}\s*', '}', css_min)  # Remove space around }
-css_min = re.sub(r'\s*;\s*', ';', css_min)  # Remove space around ;
-css_min = re.sub(r'\s*:\s*', ':', css_min)  # Remove space around :
-css_min = re.sub(r'\s*,\s*', ',', css_min)  # Remove space around ,
-css_min = css_min.strip()
-
-new_size = len(css_min)
-saved = original_size - new_size
-print(f"   CSS: {original_size:,} -> {new_size:,} bytes (saved {saved:,} bytes, {saved/original_size*100:.1f}%)")
-
-with open(css_file, 'w') as f:
-    f.write(css_min)
+# ============================================================
+# 4b. MINIFY JS (rjsmin)
+# ============================================================
+print("4b. Minifying JS...")
+try:
+    import rjsmin
+    js_file = f'{OUT}/assets/main.js'
+    if os.path.exists(js_file):
+        with open(js_file, 'r') as f:
+            js = f.read()
+        original_size = len(js)
+        js_min = rjsmin.jsmin(js)
+        new_size = len(js_min)
+        saved = original_size - new_size
+        print(f"   JS: {original_size:,} -> {new_size:,} bytes (saved {saved:,} bytes, {saved/original_size*100:.1f}%)")
+        with open(js_file, 'w') as f:
+            f.write(js_min)
+    else:
+        print("   No main.js found")
+except ImportError:
+    print("   rjsmin not installed, skipping JS minification")
 
 # ============================================================
 # 5. OPTIMISE IMAGES (convert to WebP if possible)

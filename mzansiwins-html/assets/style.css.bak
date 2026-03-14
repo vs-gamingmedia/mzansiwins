@@ -189,6 +189,7 @@ table { border-collapse: collapse; }
   padding: 0 32px; min-height: 44px; font-size: 14px; color: var(--text-secondary);
 }
 .mobile-sub-link:hover { color: var(--accent); }
+.mobile-bonus-tag { font-size: 11px; color: var(--bonus, var(--accent)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%; text-align: right; }
 .mobile-sep { height: 1px; background: var(--sep); }
 .mobile-submenu { max-height: 0; overflow: hidden; transition: max-height 360ms cubic-bezier(0.16, 1, 0.3, 1); border-left: 3px solid var(--accent); margin-left: 16px; padding-left: 8px; }
 .mobile-submenu.open { max-height: 1400px; }
@@ -1870,6 +1871,49 @@ a.payment-pill:hover { background: var(--accent); color: #fff; border-color: var
 }
 [data-theme="dark"] .rg-section .rg-content p { color: rgba(255,255,255,0.6); }
 [data-theme="dark"] .rg-btn { background: rgba(22,65,180,0.3); border: 1px solid rgba(93,148,255,0.3); }
+
+/* ===== AFFILIATE DISCLOSURE BAR ===== */
+.affiliate-disclosure-bar {
+  background: var(--bg); border-bottom: 1px solid var(--sep);
+  text-align: center; line-height: 1.4;
+}
+[data-theme="dark"] .affiliate-disclosure-bar { background: rgba(0,0,0,0.3); }
+
+/* ===== AUTHOR BYLINE INLINE ===== */
+.review-byline-inline {
+  font-size: 13px; color: var(--text-muted); line-height: 1.6;
+  padding: 12px 0; margin-bottom: 20px; border-bottom: 1px solid var(--sep);
+}
+.review-byline-inline a.byline-author { color: var(--accent); text-decoration: none; }
+.review-byline-inline a.byline-author:hover { text-decoration: underline; }
+.review-byline-inline strong { color: var(--text-primary); font-weight: 600; }
+
+/* ===== DARK MODE FIXES ===== */
+[data-theme="dark"] .listing-card { background: var(--card-bg); border-color: var(--border); }
+[data-theme="dark"] .listing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+[data-theme="dark"] .bonus-counter-banner { background: var(--card-bg); border-color: var(--border); }
+[data-theme="dark"] .method-row { background: var(--card-bg); border-color: var(--border); }
+[data-theme="dark"] .method-row:hover { background: var(--surface-2); }
+[data-theme="dark"] .method-list-header { background: var(--table-head); border-color: var(--border); }
+[data-theme="dark"] .compare-table th { background: var(--table-head); color: var(--text-primary); }
+[data-theme="dark"] .compare-table td { border-color: var(--border); }
+[data-theme="dark"] .all-bonuses-table th { background: var(--table-head); color: var(--text-primary); }
+[data-theme="dark"] .all-bonuses-table td { border-color: var(--border); }
+
+/* ===== IMPROVED TABLE FORMATTING ===== */
+.compare-table, .all-bonuses-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.compare-table th, .all-bonuses-table th {
+  background: var(--table-head); padding: 10px 14px; text-align: left;
+  font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.04em; border-bottom: 2px solid var(--border);
+}
+.compare-table td, .all-bonuses-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--sep); vertical-align: middle;
+}
+.compare-table tr:hover, .all-bonuses-table tr:hover { background: var(--accent-light); }
+
+/* Payment method list header */
+@media (min-width: 768px) { .method-list-header { display: block !important; } }
 
 /* FIX 9: Consistent news-badge styling */
 .news-badge {

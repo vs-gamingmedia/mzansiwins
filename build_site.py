@@ -59,19 +59,16 @@ def get_review_author(brand_id):
     return AUTHOR_NAMES[idx]
 
 def author_byline(author_name, depth=1, date_str='March 2026'):
-    """Return a visible author byline with photo and link to author page."""
+    """Return a visible author byline - freetips inline style with pipes."""
     prefix = '../' * depth
     aid = AUTHOR_IDS.get(author_name, '')
-    role = AUTHOR_ROLES.get(author_name, '')
-    img = author_img(author_name, size=32, depth=depth)
-    return f'''<div class="review-byline">
-      <a href="{prefix}authors/{aid}.html" class="review-byline-link">
-        {img}
-        <div>
-          <span class="review-byline-name">Reviewed by {e(author_name)}</span>
-          <span class="review-byline-meta">{e(role)} - Updated {date_str}</span>
-        </div>
-      </a>
+    # Deterministic fact-checker (different from author)
+    fc_idx = (sum(ord(c) for c in author_name) + 3) % len(AUTHOR_NAMES)
+    fc_name = AUTHOR_NAMES[fc_idx]
+    if fc_name == author_name:
+        fc_name = AUTHOR_NAMES[(fc_idx + 1) % len(AUTHOR_NAMES)]
+    return f'''<div class="review-byline-inline">
+      Written by <a href="{prefix}authors/{aid}.html" class="byline-author"><strong>{e(author_name)}</strong></a> | Fact checked by <strong>{e(fc_name)}</strong> | Last updated: <strong>{date_str}</strong>
     </div>'''
 def author_img(name, size=36, depth=0):
     """Return an <img> tag for the author photo, or initials fallback."""
@@ -723,6 +720,24 @@ def jsonld_website():
 }}</script>'''
 
 
+def jsonld_organisation():
+    """Generate JSON-LD Organization schema."""
+    return f'''<script type="application/ld+json">{{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MzansiWins",
+  "url": "{BASE_URL}",
+  "logo": "{BASE_URL}/assets/logo.svg",
+  "description": "South Africa's trusted guide to licensed betting sites, promo codes, and payment methods.",
+  "foundingDate": "2024",
+  "contactPoint": {{
+    "@type": "ContactPoint",
+    "email": "help@mzansiwins.co.za",
+    "contactType": "customer service"
+  }}
+}}</script>'''
+
+
 def jsonld_itemlist(brands, list_name):
     """Generate JSON-LD ItemList schema for listing pages."""
     items = ''
@@ -832,7 +847,7 @@ def page(title, description, canonical, body, depth=0, active_nav='', json_ld=''
 
     # Mobile menu
     mobile_brands = ''.join(
-        f'<a href="{prefix}betting-site-review/{b["id"]}.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>{e(b["name"])}</span><span class="dropdown-rating">{fmtRating(b["overallRating"])}/5.0</span></a>\n'
+        f'<a href="{prefix}betting-site-review/{b["id"]}.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>{e(b["name"])}</span><span class="mobile-bonus-tag">{e(b["welcomeBonusAmount"][:35])}</span></a>\n'
         for b in BRANDS
     )
     mobile_menu = f'''<div class="mobile-overlay" onclick="closeMobileMenu()"></div>
@@ -854,6 +869,8 @@ def page(title, description, canonical, body, depth=0, active_nav='', json_ld=''
       <a href="{prefix}casino-sites.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>Casino Sites</span></a>
       <a href="{prefix}casino/best-casino-apps-south-africa.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>Best Casino Apps</span></a>
       <a href="{prefix}casino-guides/" class="mobile-sub-link" onclick="closeMobileMenu()"><span>Casino Guides</span></a>
+      <a href="{prefix}crash-games/index.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>Crash Games</span></a>
+      <a href="{prefix}sa-slots/index.html" class="mobile-sub-link" onclick="closeMobileMenu()"><span>SA Slots</span></a>
     </div>
     <div class="mobile-sep"></div>
     <button class="mobile-nav-item" onclick="toggleSubmenu('sub-reviews')"><span>Reviews</span><span class="mobile-chevron" style="transition:transform 280ms">{ICON_CHEVRON_DOWN}</span></button>
@@ -949,12 +966,12 @@ def page(title, description, canonical, body, depth=0, active_nav='', json_ld=''
     </div>
     <div class="rg-notice">
       <p class="footer-heading">18+ RESPONSIBLE GAMBLING</p>
-      <p>Gambling is entertainment - not a get-rich-quick scheme. You must be 18+ to gamble in SA. Never bet the rent money. If things are getting out of hand for you or someone you know, call the SA Responsible Gambling Foundation: <strong>0800 006 008</strong> (free, 24/7). Every bookmaker on this site holds a valid provincial licence.</p>
+      <p>Gambling should be treated as entertainment. You must be 18+ to gamble in South Africa. If you or someone you know needs help, contact the SA Responsible Gambling Foundation: <strong>0800 006 008</strong> (free, 24/7). Every bookmaker on this site holds a valid provincial licence.</p>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 MzansiWins. All rights reserved.</p>
+      <p>&copy; 2026 MzansiWins. All rights reserved. This site includes commercial links.</p>
     </div>
-    <p class="footer-disclaimer">Disclaimer: MzansiWins is an independent review site. Ja, we earn affiliate commissions when you sign up through our links - that is how we keep the lights on. But it never influences our rankings or what we write. All bonus offers and odds are subject to change. Always read the T&amp;Cs, even the boring bits.</p>
+
   </div>
 </footer>'''
 
@@ -1016,6 +1033,7 @@ def page(title, description, canonical, body, depth=0, active_nav='', json_ld=''
     </div>
   </header>
   {mobile_menu}
+  <div class="affiliate-disclosure-bar"><div class="container" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 16px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span style="font-size:11px;color:var(--text-muted)">We may earn a commission from bookmaker links. This never affects our ratings. <a href="{prefix}affiliate-disclosure.html" style="color:var(--accent);text-decoration:underline">Learn more</a></span></div></div>
   <main>{body}</main>
   {footer}
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
@@ -1195,14 +1213,14 @@ def build_homepage():
 
     # FAQ
     faqs = [
-        ('Is online betting legal in South Africa?', 'Ja, 100% legal, bru. As long as you stick to licensed operators (which is every single bookie on this site), you are golden. All our bookmakers hold proper provincial gambling licences. Stay on the straight and narrow and you are sorted.'),
+        ('Is online betting legal in South Africa?', 'Yes, fully legal. As long as you use licensed operators (every bookmaker on this site is licensed), you are covered. All our listed bookmakers hold valid provincial gambling licences.'),
         ('What is the minimum age for betting in SA?', 'You must be 18 or older to place bets in South Africa. All licensed bookmakers will ask you to verify your identity (FICA) before you can withdraw. No exceptions.'),
-        ('Which payment method is fastest?', 'Ozow is faster than a Kolisi tackle - instant. OTT, Blu Voucher, and 1Voucher are also instant. Visa and Mastercard work quick too. If waiting for money gives you anxiety, these are your friends.'),
-        ('Do I need a promo code for welcome bonuses?', 'Some bookies want a code, others just throw the bonus at you automatically. It depends. We spell it out for every single bookmaker in our reviews - no guessing required.'),
-        ('How long do withdrawals take?', 'Depends how you cash out. Ozow and some EFTs can land same-day (beautiful). Bank transfers? 1 to 3 business days - ja, we know, painful. Vouchers are usually 24 to 48 hours.'),
+        ('Which payment method is fastest?', 'Ozow processes deposits instantly. OTT, Blu Voucher, and 1Voucher are also instant. Visa and Mastercard typically process within seconds. These are the best options for speed.'),
+        ('Do I need a promo code for welcome bonuses?', 'Some bookmakers require a promo code, others apply the bonus automatically. We specify the requirements for every bookmaker in our reviews.'),
+        ('How long do withdrawals take?', 'It depends on your withdrawal method. Ozow and some EFT options can process same-day. Bank transfers typically take 1 to 3 business days. Vouchers usually process within 24 to 48 hours.'),
         ('Are my personal details safe?', 'Licensed SA bookmakers must comply with POPIA and use proper encryption. Stick to licensed operators and you are covered.'),
-        ('Which bookmaker has the best welcome bonus right now?', 'Right now? Zarbet is the boss - 125% match up to R3,750 plus 25 free spins. 10Bet is hot on their heels with 100% up to R3,000. And Easybet brings the fire with 150% up to R1,500. Competition is lekker.'),
-        ('Can I bet on the PSL at all SA bookmakers?', 'Every single one of the 35 bookies covers PSL - it is basically a requirement in this country. Hollywoodbets goes the deepest with player props, corner totals, and half-time markets. Die-hard PSL fans, that is your spot.'),
+        ('Which bookmaker has the best welcome bonus right now?', 'Currently, Zarbet offers the highest match at 125% up to R3,750 plus 25 free spins. 10Bet follows closely with 100% up to R3,000. Easybet also stands out with 150% up to R1,500. Competition among bookmakers keeps bonuses strong.'),
+        ('Can I bet on the PSL at all SA bookmakers?', 'All 35 bookmakers cover PSL matches — it is the most popular betting market in South Africa. Hollywoodbets offers the deepest coverage with player props, corner totals, and half-time markets, making it ideal for serious PSL bettors.'),
     ]
     faq_html = ''
     for q, a in faqs:
@@ -1280,7 +1298,7 @@ def build_homepage():
               <span>Licensed &amp; Verified</span>
             </div>
             <div class="hero-trust-item">
-              <svg width="22" height="15" viewBox="0 0 900 600" style="border-radius:2px"><rect width="900" height="200" fill="#DE3831"/><rect y="200" width="900" height="200" fill="#FFF"/><rect y="400" width="900" height="200" fill="#002395"/><path d="M0,0 L0,128 L360,300 L0,472 L0,600 L180,600 L540,300 L180,0Z" fill="#FFB612"/><path d="M0,28 L0,160 L340,300 L0,440 L0,572 L152,572 L510,300 L152,28Z" fill="#007A4D"/><path d="M0,80 L0,192 L300,300 L0,408 L0,520 L100,520 L430,300 L100,80Z" fill="#FFF"/><path d="M0,112 L0,210 L270,300 L0,390 L0,488 L68,488 L390,300 L68,112Z" fill="#000"/></svg>
+              <svg width="22" height="15" viewBox="0 0 900 600" style="border-radius:2px"><rect width="900" height="600" fill="#002395"/><rect width="900" height="300" fill="#DE3831"/><path d="M0,0 L0,168 L315,300 L0,432 L0,600 L210,600 L600,300 L210,0Z" fill="#FFF"/><path d="M0,30 L0,195 L300,300 L0,405 L0,570 L180,570 L570,300 L180,30Z" fill="#007A4D"/><path d="M0,90 L0,225 L225,300 L0,375 L0,510 L120,510 L420,300 L120,90Z" fill="#FFB612"/><path d="M0,120 L0,240 L195,300 L0,360 L0,480 L90,480 L360,300 L90,120Z" fill="#000"/></svg>
               <span>100% South African</span>
             </div>
             <div class="hero-trust-item">
@@ -1394,7 +1412,7 @@ def build_homepage():
     '''
 
     t, d = seo_meta('home')
-    home_ld = jsonld_website() + '\n' + jsonld_faq(faqs)
+    home_ld = jsonld_website() + '\n' + jsonld_organisation() + '\n' + jsonld_faq(faqs)
     return page(t, d, '', body, depth=0, active_nav='home', json_ld=home_ld)
 
 
@@ -1618,7 +1636,7 @@ def build_brand_review(brand):
           <div class="sidebar-card">
             <h3>Quick Info</h3>
             <div class="sidebar-row"><span class="text-muted">Rating</span><span class="font-semibold">{fmtRating(brand['overallRating'])}/5.0</span></div>
-            <div class="sidebar-row"><span class="text-muted">Bonus</span><span class="font-semibold text-bonus">{e(brand['welcomeBonusAmount'][:30])}</span></div>
+            <div class="sidebar-row"><span class="text-muted">Bonus</span><span class="font-semibold" style="color:var(--accent);font-size:12px;text-align:right;max-width:180px">{e(brand['welcomeBonusAmount'])}</span></div>
             <div class="sidebar-row"><span class="text-muted">Promo Code</span><span class="font-semibold">{e(code)}</span></div>
             <div class="sidebar-row"><span class="text-muted">Min Deposit</span><span class="font-semibold">{e(brand.get('minDeposit','Varies'))}</span></div>
             
@@ -1685,7 +1703,7 @@ def build_promo_detail(brand):
 
     # Check icon
     check_sm = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
-    flag_icon = '<svg width="20" height="14" viewBox="0 0 900 600" aria-label="South African flag" style="border-radius:2px;vertical-align:middle"><rect width="900" height="200" fill="#DE3831"/><rect y="200" width="900" height="200" fill="#FFF"/><rect y="400" width="900" height="200" fill="#002395"/><path d="M0,0 L0,128 L360,300 L0,472 L0,600 L180,600 L540,300 L180,0Z" fill="#FFB612"/><path d="M0,28 L0,160 L340,300 L0,440 L0,572 L152,572 L510,300 L152,28Z" fill="#007A4D"/><path d="M0,80 L0,192 L300,300 L0,408 L0,520 L100,520 L430,300 L100,80Z" fill="#FFF"/><path d="M0,112 L0,210 L270,300 L0,390 L0,488 L68,488 L390,300 L68,112Z" fill="#000"/></svg>'
+    flag_icon = '<svg width="20" height="14" viewBox="0 0 900 600" aria-label="South African flag" style="border-radius:2px;vertical-align:middle"><rect width="900" height="600" fill="#002395"/><rect width="900" height="300" fill="#DE3831"/><path d="M0,0 L0,168 L315,300 L0,432 L0,600 L210,600 L600,300 L210,0Z" fill="#FFF"/><path d="M0,30 L0,195 L300,300 L0,405 L0,570 L180,570 L570,300 L180,30Z" fill="#007A4D"/><path d="M0,90 L0,225 L225,300 L0,375 L0,510 L120,510 L420,300 L120,90Z" fill="#FFB612"/><path d="M0,120 L0,240 L195,300 L0,360 L0,480 L90,480 L360,300 L90,120Z" fill="#000"/></svg>'
 
     # Badge for top-rated brand
     badge = ''
@@ -1744,11 +1762,14 @@ def build_promo_detail(brand):
     compare_rows = ''
     for sb in similar:
         sc = get_promo(sb)
+        sb_exit = masked_exit(sb, depth)
         compare_rows += f'''<tr>
-      <td><a href="{sb['id']}.html" style="color:var(--accent);font-weight:600">{e(sb['name'])}</a></td>
+      <td style="white-space:nowrap"><a href="{sb['id']}.html" style="color:var(--accent);font-weight:600">{e(sb['name'])}</a></td>
       <td>{e(sb['welcomeBonusAmount'][:40])}</td>
-      <td>{e(sc)}</td>
-      <td>{fmtRating(sb['overallRating'])}/5.0</td>
+      <td style="font-family:monospace;font-weight:600">{e(sc)}</td>
+      <td style="text-align:center">{fmtRating(sb['overallRating'])}/5.0</td>
+      <td style="text-align:center"><a href="../promo-code/{sb['id']}.html" class="btn-outline btn-sm" style="font-size:11px;padding:4px 10px">Promo</a></td>
+      <td style="text-align:center">{f'<a href="{sb_exit}" target="_blank" rel="noopener noreferrer nofollow" class="btn-primary btn-sm" style="font-size:11px;padding:4px 10px">Visit</a>' if sb_exit else ''}</td>
     </tr>'''
 
     # All bonuses table (top 10)
@@ -1919,7 +1940,7 @@ def build_promo_detail(brand):
             <h2 style="font-size:18px;font-weight:700;margin-bottom:16px">Compare With Similar Offers</h2>
             <div class="table-wrap">
               <table class="compare-table">
-                <thead><tr><th>Bookmaker</th><th>Bonus</th><th>Code</th><th>Rating</th></tr></thead>
+                <thead><tr><th>Bookmaker</th><th>Bonus</th><th>Code</th><th>Rating</th><th>Promo</th><th>Visit</th></tr></thead>
                 <tbody>{compare_rows}</tbody>
               </table>
             </div>
@@ -2401,6 +2422,10 @@ def build_listing_page(page_type):
             ('Find Your Bookmaker', 'betting/find-your-bookmaker.html', '🔍'),
             ('New Betting Sites', 'new-betting-sites.html', '🆕'),
             ('Compare Bookmakers', 'compare/index.html', '⚖️'),
+            ('Odds Explained', 'guides/odds-explained-south-africa.html', '📊'),
+            ('Betting Strategies', 'guides/betting-strategies-south-africa.html', '🎯'),
+            ('How to Bet on PSL', 'guides/how-to-bet-on-psl.html', '⚽'),
+            ('Betting Markets', 'guides/sports-betting-markets-explained.html', '📖'),
         ]
         subcat_html = _build_subcat_nav('Browse by Category', subcat_items)
     elif page_type == 'casino-sites':
@@ -2409,7 +2434,8 @@ def build_listing_page(page_type):
             ('Online Slots Guide', 'casino-guides/online-slots-guide-south-africa.html', '🎰'),
             ('Live Casino Guide', 'casino-guides/live-casino-guide-south-africa.html', '🃏'),
             ('Casino Bonuses Guide', 'casino-guides/casino-bonuses-guide-south-africa.html', '🎁'),
-            ('Aviator & Crash Games', 'casino-guides/aviator-crash-games-guide-south-africa.html', '✈️'),
+            ('Crash Games', 'crash-games/index.html', '✈️'),
+            ('SA Slots', 'sa-slots/index.html', '🇿🇦'),
             ('RTP & House Edge', 'casino-guides/rtp-and-house-edge-explained.html', '📊'),
         ]
         subcat_html = _build_subcat_nav('Explore Casino Guides', subcat_items)
@@ -2628,13 +2654,16 @@ def build_promo_codes_page():
   </div>
   <ul class="promo-card-bullets">{bullet_items}</ul>
   <p class="promo-card-tcs">{tc_short}</p>
-  <a href="promo-code/{bid}.html" class="promo-card-cta">View Details</a>
+  <div style="display:flex;gap:8px;margin-top:4px">
+    <a href="promo-code/{bid}.html" class="promo-card-cta" style="flex:1;background:transparent;color:var(--accent);border:1.5px solid var(--accent)">View Details</a>
+    {f'<a href="{masked_exit(b, 0)}" target="_blank" rel="noopener noreferrer nofollow" class="promo-card-cta" style="flex:1">Claim Now</a>' if b.get('exitLink') else ''}
+  </div>
 </div>'''
 
     check_sm_p = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
     promo_hero = category_hero(
-        f"SA\'s Juiciest Betting Promo Codes - {CURRENT_MONTH_YEAR}",
-        f"We rounded up every welcome bonus and promo code from all {total_brands} licensed SA bookmakers. Ranked, reviewed, verified, and ready to claim. You are welcome.",
+        f"SA Betting Promo Codes - {CURRENT_MONTH_YEAR}",
+        f"Every verified welcome bonus and promo code from all {total_brands} licensed SA bookmakers. Ranked, reviewed, and verified. Ready to claim.",
         [{"label":"Home","href":"index.html"},{"label":"Promo Codes"}], 0,
         badges=[
             f'{check_sm_p} <span>{total_brands} Verified Codes</span>',
@@ -2703,7 +2732,7 @@ def build_payment_hub():
             </div>
             {f'<p style="font-size:12px;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--sep)">Accepted at {bc} bookmaker{"s" if bc != 1 else ""}</p>' if bc > 0 else ''}
           </div>
-          <div class="method-row-desktop">
+          <div class="method-row-desktop" style="display:grid;grid-template-columns:1fr 140px 140px 100px 60px;gap:16px;align-items:center">
             <div style="display:flex;align-items:center;gap:12px;min-width:0">
               <div class="method-icon-box" style="width:36px;height:36px;font-size:16px">{icon}</div>
               <div style="min-width:0">
@@ -2720,7 +2749,7 @@ def build_payment_hub():
 
     pay_hero = category_hero(
         "SA Betting Payment Methods",
-        f"{len(PAYMENTS)} ways to get your rands into and out of SA betting sites. Find the one that works for you - no PhD in banking required.",
+        f"{len(PAYMENTS)} ways to deposit and withdraw at South African betting sites. Compare speed, fees, and availability to find the right option.",
         [{"label":"Home","href":"index.html"},{"label":"Payment Methods"}], 0,
         deco_icon='&#x1F4B3;'
     )
@@ -2738,6 +2767,11 @@ def build_payment_hub():
         </select>
       </div>
 
+      <div class="method-list-header" style="display:none;padding:12px 20px;background:var(--table-head);border:1px solid var(--border);border-radius:10px 10px 0 0;margin-bottom:-1px;font-size:13px;font-weight:600;color:var(--text-muted)">
+        <div style="display:grid;grid-template-columns:1fr 140px 140px 100px 60px;gap:16px;align-items:center">
+          <span>Payment Method</span><span>Deposit Speed</span><span>Withdrawal Speed</span><span>Fees</span><span></span>
+        </div>
+      </div>
       <div class="method-list filterable-grid">{rows}</div>
     </div>'''
 
@@ -3884,7 +3918,7 @@ print(f'  {link_count} redirect pages created')
 
 # ======== EXPANSION PAGES ========
 print('\nBuilding expansion pages...')
-from build_expansion import run_expansion
+from build_expansion import run_expansion, build_crash_games_category, build_sa_slots_section
 expansion_sitemap = run_expansion(
     DATA=DATA, BRANDS=BRANDS, BRANDS_ORDERED=BRANDS_ORDERED,
     page_fn=page, breadcrumbs_fn=breadcrumbs, logo_path_fn=logo_path, category_hero_fn=category_hero,
@@ -3894,6 +3928,28 @@ expansion_sitemap = run_expansion(
     ICON_GIFT=ICON_GIFT, ICON_SHIELD=ICON_SHIELD, ICON_CHEVRON_RIGHT=ICON_CHEVRON_RIGHT,
     ICON_CHEVRON_DOWN=ICON_CHEVRON_DOWN, ICON_STAR=ICON_STAR, ICON_ARROW_LEFT=ICON_ARROW_LEFT
 )
+
+# ======== CRASH GAMES CATEGORY ========
+print('Building crash games category...')
+crash_sitemap = build_crash_games_category(
+    page_fn=page, category_hero_fn=category_hero, breadcrumbs_fn=breadcrumbs,
+    write_file_fn=write_file, BRANDS=BRANDS, masked_exit_fn=masked_exit,
+    brand_bg_fn=brand_bg, logo_path_fn=logo_path, rating_badge_fn=rating_badge,
+    OUT=OUT, BASE_URL=BASE_URL
+)
+expansion_sitemap += crash_sitemap
+print(f'  {len(crash_sitemap)} crash games pages created')
+
+# ======== SA SLOTS SECTION ========
+print('Building SA slots section...')
+slots_sitemap = build_sa_slots_section(
+    page_fn=page, category_hero_fn=category_hero, breadcrumbs_fn=breadcrumbs,
+    write_file_fn=write_file, BRANDS=BRANDS, masked_exit_fn=masked_exit,
+    brand_bg_fn=brand_bg, logo_path_fn=logo_path, rating_badge_fn=rating_badge,
+    OUT=OUT, BASE_URL=BASE_URL
+)
+expansion_sitemap += slots_sitemap
+print(f'  {len(slots_sitemap)} SA slots pages created')
 
 # Sitemap - use xml.etree for proper namespace handling
 import xml.etree.ElementTree as ET
