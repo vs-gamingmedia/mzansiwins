@@ -560,6 +560,43 @@ def linkify_brand_mentions(html_text, depth=0):
         html_text = ''.join(parts)
     return html_text
 
+def linkify_brand_mentions_news(html_text, lede_text, depth=0):
+    """Like linkify_brand_mentions but:
+    - Never links inside <p class="lede"> blocks
+    - Max 1 link per brand (not 2) for news articles
+    - First mention in body text gets the link
+    """
+    prefix = '../' * depth
+    import re as _re
+    sorted_brands = sorted(DATA['brands'], key=lambda b: len(b['name']), reverse=True)
+    splitter = _re.compile(r'(<a\b[^>]*>.*?</a>|<[^>]+>)', flags=_re.DOTALL | _re.IGNORECASE)
+    for b in sorted_brands:
+        name = b['name']
+        bid = b['id']
+        link = f'<a href="{prefix}betting-site-review/{bid}.html" style="color:var(--accent);font-weight:600">{name}</a>'
+        parts = splitter.split(html_text)
+        count = 0
+        in_lede = False
+        pattern = _re.compile(r'\b' + _re.escape(name) + r'\b', flags=_re.IGNORECASE)
+        for i, part in enumerate(parts):
+            if part.startswith('<'):
+                if 'class="lede"' in part or "class='lede'" in part:
+                    in_lede = True
+                elif in_lede and part.strip().lower() == '</p>':
+                    in_lede = False
+                continue
+            if in_lede:
+                continue
+            if count >= 1:
+                break
+            matches = pattern.findall(part)
+            if matches:
+                remaining = 1 - count
+                parts[i] = pattern.sub(link, part, count=remaining)
+                count += min(len(matches), remaining)
+        html_text = ''.join(parts)
+    return html_text
+
 PUBLISHER_LD = '{"@type": "Organization", "name": "MzansiWins", "url": "https://mzansiwins.co.za", "logo": {"@type": "ImageObject", "url": "https://mzansiwins.co.za/assets/favicon.svg"}}'
 
 def _esc_json(s):
@@ -1220,7 +1257,7 @@ def build_homepage():
         ('How long do withdrawals take?', 'It depends on your withdrawal method. Ozow and some EFT options can process same-day. Bank transfers typically take 1 to 3 business days. Vouchers usually process within 24 to 48 hours.'),
         ('Are my personal details safe?', 'Licensed SA bookmakers must comply with POPIA and use proper encryption. Stick to licensed operators and you are covered.'),
         ('Which bookmaker has the best welcome bonus right now?', 'Currently, Zarbet offers the highest match at 125% up to R3,750 plus 25 free spins. 10Bet follows closely with 100% up to R3,000. Easybet also stands out with 150% up to R1,500. Competition among bookmakers keeps bonuses strong.'),
-        ('Can I bet on the PSL at all SA bookmakers?', 'All 35 bookmakers cover PSL matches — it is the most popular betting market in South Africa. Hollywoodbets offers the deepest coverage with player props, corner totals, and half-time markets, making it ideal for serious PSL bettors.'),
+        ('Can I bet on the PSL at all SA bookmakers?', 'All 35 bookmakers cover PSL matches. It is the most popular betting market in South Africa. Hollywoodbets offers the deepest coverage with player props, corner totals, and half-time markets, making it ideal for serious PSL bettors.'),
     ]
     faq_html = ''
     for q, a in faqs:
@@ -1354,7 +1391,7 @@ def build_homepage():
     <section class="section section-alt">
       <div class="container">
         <div class="section-header">
-          <div><h2 class="section-title">Best Bookmakers by Sport</h2><p class="section-subtitle">Whether you bleed PSL or live for the Boks - we have got your bookie sorted</p></div>
+          <div><h2 class="section-title">Best Bookmakers by Sport</h2><p class="section-subtitle">From PSL to Springbok rugby - we have got your bookie sorted</p></div>
         </div>
         <div class="grid-6">{sport_cards}</div>
         <div style="text-align:center;margin-top:24px">
@@ -2228,8 +2265,23 @@ def build_news_article(article):
                 elif section.get('type') == 'list':
                     items = ''.join(f'<li>{e(i)}</li>' for i in section.get('items', []))
                     body_html += f'<ul>{items}</ul>'
-    # Auto-link brand mentions to review pages
-    body_html = linkify_brand_mentions(body_html, depth=1)
+    # Strip ALL pre-baked links from lede paragraphs and review links from body
+    import re as _re_news
+    def _strip_lede_links(html):
+        """Remove all <a> tags inside <p class="lede"> blocks, keeping text content."""
+        def _clean_lede(m):
+            content = m.group(1)
+            # Strip all anchor tags, keep inner text
+            content = _re_news.sub(r'<a[^>]*>(.*?)</a>', r'\1', content)
+            return f'<p class="lede">{content}</p>'
+        return _re_news.sub(r'<p class="lede">(.*?)</p>', _clean_lede, html, flags=_re_news.DOTALL)
+    def _strip_review_links(html):
+        """Remove <a href=".../betting-site-review/...">Name</a> -> Name"""
+        return _re_news.sub(r'<a[^>]*betting-site-review[^>]*>(.*?)</a>', r'\1', html)
+    body_html = _strip_lede_links(body_html)
+    body_html = _strip_review_links(body_html)
+    # Now re-linkify: skip lede, max 1 per brand
+    body_html = linkify_brand_mentions_news(body_html, article.get('lede', ''), depth=1)
 
     related = [a for a in NEWS if a['slug'] != article['slug']][:3]
     related_html = ''
@@ -2849,7 +2901,7 @@ def build_content_page(page_type):
         content = '''<p>MzansiWins is South Africa's independent betting review platform, built by punters who were gatvol of biased reviews and dodgy bonus claims. So we made something honest.</p>
         <h2>What We Do</h2>
         <p>We test every licensed SA bookmaker with our own rands. We sign up, deposit, bet, and withdraw - then we write about what actually happened, not what the marketing team wanted us to say. No sugar-coating, no sponsored rankings.</p>
-        <p>Our reviews cover 35 licensed operators, 11 payment methods, and hundreds of promo codes. Everything gets updated regularly because the SA betting landscape moves faster than a Rabada yorker.</p>
+        <p>Our reviews cover 35 licensed operators, 11 payment methods, and hundreds of promo codes. Everything gets updated regularly because the SA betting market moves faster than a Rabada yorker.</p>
         <h2>Our Team</h2>
         <p>We are a tight crew of SA betting enthusiasts scattered across Joburg, Cape Town, and Durbs. Between us, we have over 20 years in the South African betting trenches. We have seen the good, the bad, and the "why does this withdrawal take 7 days?"</p>
         <h2>Editorial Independence</h2>
@@ -3007,7 +3059,7 @@ def build_new_betting_sites():
 
     seo_content = f'''<div class="content-page" style="margin-bottom:32px">
       <h2>Fresh Faces in the SA Betting Scene</h2>
-      <p>The South African online betting market is growing fast, and new bookmakers are joining the ranks regularly. These fresh entrants bring innovative features, generous sign-up bonuses, and modern platforms built from the ground up for mobile users. Whether you are after bigger welcome offers or just want to try something different, new betting sites often have the most competitive deals as they fight to win your business.</p>
+      <p>The South African online betting market is growing fast, and new bookmakers are joining the ranks regularly. These fresh entrants bring innovative features, generous sign-up bonuses, and modern platforms built from the ground up for mobile users. After bigger welcome offers or just want to try something different? New betting sites often have the most competitive deals as they fight to win your business.</p>
       <p>Every new bookmaker listed on MzansiWins holds a valid provincial gambling licence, so your money and personal data are protected under South African law. We test each one personally before recommending them.</p>
 
       <h2>Why Try a New Betting Site?</h2>
@@ -3107,12 +3159,12 @@ FOOTER_PAGES = {
     'editorial-policy': {
         'title': 'Editorial Policy',
         'meta_desc': 'MzansiWins Editorial Policy. How we research, write, and publish betting site reviews and guides for South African players.',
-        'content': '''<p>Quality content is what sets MzansiWins apart. Our editorial policy ensures every piece of content meets the high standards South African punters deserve.</p>
+        'content': '''<p>Quality content is what sets MzansiWins apart. Our editorial policy means every piece of content meets the high standards South African punters deserve.</p>
         <h2>How We Create Content</h2>
         <p>Every review and guide on MzansiWins follows a rigorous process:</p>
         <ol>
         <li><strong>Research:</strong> Our team registers real accounts, makes real deposits, and tests every feature hands-on.</li>
-        <li><strong>Writing:</strong> Content is drafted by experienced writers who understand the SA betting landscape inside and out.</li>
+        <li><strong>Writing:</strong> Content is drafted by experienced writers who know the SA betting market inside and out.</li>
         <li><strong>Review:</strong> Every piece is fact-checked by a second team member before publication.</li>
         <li><strong>Updates:</strong> Published content is reviewed at least monthly to ensure accuracy. Bonus amounts, T&Cs, and payment methods can change - we stay on top of it.</li>
         </ol>
@@ -3322,7 +3374,7 @@ FOOTER_PAGES = {
             </div>
           </div>
           <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">Thabo Mokoena leads the editorial direction of the site and oversees all sportsbook reviews and regulatory coverage. Before joining the platform, he worked as a sports journalist for a major Johannesburg daily, where he reported on football, rugby, and the rapidly expanding South African online betting market.</p>
-          <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">Since 2018, Thabo has specialised in analysing licensed betting operators serving South African players. He has personally reviewed more than 100 betting platforms across Africa, focusing on licensing standards, pricing competitiveness, and customer protections. His work ensures that all bookmaker reviews are grounded in factual testing rather than promotional claims.</p>
+          <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">Since 2018, Thabo has specialised in analysing licensed betting operators serving South African players. He has personally reviewed more than 100 betting platforms across Africa, focusing on licensing standards, pricing competitiveness, and customer protections. His work means all bookmaker reviews are grounded in factual testing rather than promotional claims.</p>
           <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">He holds a BA in Media Studies from the University of the Witwatersrand (Wits University).</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px">
             <span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;background:var(--accent-light);color:var(--accent);border-radius:20px">Sportsbook Reviews</span>
@@ -3607,7 +3659,7 @@ def build_calculator_hub():
     # Hub page SEO content
     hub_seo = f'''<div class="content-page" style="margin-top:48px">
       <h2>Why Use a Betting Calculator?</h2>
-      <p>Smart punters do not guess - they calculate. Whether you are working out what an accumulator pays, converting between odds formats, or figuring out how much to stake on an arbitrage opportunity, these tools do the maths instantly so you can make informed decisions before risking your hard-earned rands.</p>
+      <p>Smart punters do not guess - they calculate. If you need to work out what an accumulator pays, converting between odds formats, or figuring out how much to stake on an arbitrage opportunity, these tools do the maths instantly so you can make informed decisions before risking your hard-earned rands.</p>
 
       <h2>Free Tools for South African Bettors</h2>
       <p>Every calculator on this page is built for the South African market. Stakes and returns are calculated in ZAR, examples reference local bookmakers like Hollywoodbets, Betway, and Sportingbet, and the tools work on mobile and desktop without any sign-up or download required.</p>

@@ -144,7 +144,7 @@ def _build_top5_casino_reviews(brands_data):
             'verdict': 'PlayTsogo is the best pick if you want a land-based casino feel online. The Tsogo Sun backing means quality games and proper regulation, and that welcome package is hard to ignore.'
         },
         {
-            'summary': 'Betfred brings decades of UK gambling experience to South Africa with a casino offering that punches well above its weight. The headline number is staggering - up to R21,000 plus 750 spins spread across your first deposits. Their casino includes a wide range of slots, table games, and live dealer options from top-tier game providers.',
+            'summary': 'Betfred brings decades of UK gambling experience to South Africa with a casino offering that punches well above its weight. The headline number is staggering - up to R21,000 plus 750 spins spread across your first deposits. Their casino includes plenty of slots, table games, and live dealer options from top-tier game providers.',
             'pros': ['Biggest combined bonus in SA - R21,000 + 750 spins', 'Decades of UK gambling pedigree', 'Strong slot and live dealer selection', 'Progressive jackpots available'],
             'cons': ['Bonus is spread across multiple deposits', 'Not as well-known in SA as local brands', 'Wagering requirements on the full bonus are high'],
             'verdict': 'If you are chasing the biggest bonus number, Betfred is your pick. The R21,000 headline is real, though you will need multiple deposits to unlock it all. The casino game quality is excellent.'

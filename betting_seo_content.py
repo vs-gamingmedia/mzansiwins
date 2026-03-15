@@ -25,7 +25,7 @@ def betting_sites_mid_html():
         With over 35 licensed bookmakers fighting for your attention, each one promising bigger bonuses
         and better odds, it is easy to feel overwhelmed. We spent months testing every single one
         of them - signing up with real money, placing real bets, and withdrawing real rands - so you
-        do not have to waste your time on the duds. Whether you are after the best welcome bonus, the
+        do not have to waste your time on the duds. If you are after the best welcome bonus, the
         fastest payouts, or simply the best odds on the PSL, this guide has you covered.
       </p>
       <p style="font-size:15px;line-height:1.8;color:var(--text-secondary);margin-bottom:24px">

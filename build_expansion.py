@@ -625,7 +625,7 @@ def run_expansion(DATA, BRANDS, BRANDS_ORDERED, page_fn, breadcrumbs_fn, logo_pa
             "seo_title": "Best Rugby Betting Sites South Africa 2026 - Top 5 Picks",
             "seo_desc": "Find the best rugby betting sites in South Africa for 2026. Springboks, URC, Currie Cup - our experts rank the top 5 SA bookmakers for rugby betting.",
             "h1": "Best Rugby Betting Sites in South Africa",
-            "intro": "Whether you are backing the Springboks in a Test series or placing a punt on the URC, you need a bookmaker that takes rugby seriously. We have tested all 36 licensed SA betting sites and ranked the top 5 for rugby betting based on odds quality, live betting coverage, market depth, and bonuses.",
+            "intro": "Backing the Springboks in a Test series or placing a punt on the URC? You need a bookmaker that takes rugby seriously. We have tested all 36 licensed SA betting sites and ranked the top 5 for rugby betting based on odds quality, live betting coverage, market depth, and bonuses.",
             "filter": lambda b: 'Rugby' in b.get('sportsCovered', []),
             "guide_link": "how-to-bet-on-rugby-south-africa",
             "sport_detail": "rugby",
@@ -1024,7 +1024,7 @@ def run_expansion(DATA, BRANDS, BRANDS_ORDERED, page_fn, breadcrumbs_fn, logo_pa
           </div>
         </a>'''
     bc_items = [{"label": "Home", "href": "index.html"}, {"label": "Betting Sites", "href": "betting-sites.html"}, {"label": "Betting Guides"}]
-    guides_hub_hero = category_hero('Betting Guides for South African Punters', 'Whether you are a first-time punter or looking to sharpen your strategy, our guides cover everything from the basics to advanced betting techniques. Written by SA betting experts.', bc_items, 1, deco_icon='&#x1F4D6;')
+    guides_hub_hero = category_hero('Betting Guides for South African Punters', 'New to betting or looking to sharpen your strategy, our guides cover everything from the basics to advanced betting techniques. Written by SA betting experts.', bc_items, 1, deco_icon='&#x1F4D6;')
     body = f'''
     {guides_hub_hero}
     <div class="container" style="padding-top:32px;padding-bottom:80px">
@@ -1429,7 +1429,7 @@ def _generate_guide_content(guides, category, DATA, BRANDS, brands_map):
             <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Football is the most popular sport to bet on in South Africa, and for good reason. Between the PSL, English Premier League, Champions League, and international tournaments, there is always a match to bet on. Here is everything you need to know to start betting on football at SA bookmakers.</p>
 
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Choosing the Right Bookmaker</h3>
-            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Not all SA bookmakers are equal when it comes to football. Look for sites that offer competitive odds on PSL matches, a wide range of markets (especially for big European leagues), and live in-play betting. {top3[0]}, {top3[1]}, and {top3[2]} consistently rank highest for football coverage.</p>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">Not all SA bookmakers are equal for football. Look for sites that offer competitive odds on PSL matches, plenty of markets (especially for big European leagues), and live in-play betting. {top3[0]}, {top3[1]}, and {top3[2]} consistently rank highest for football coverage.</p>
 
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Popular Football Betting Markets</h3>
             <ul style="padding-left:0;list-style:none;margin-bottom:16px">
@@ -1872,7 +1872,7 @@ def _generate_guide_content(guides, category, DATA, BRANDS, brands_map):
             short = g['short']
             content[gid] = f'''
             <h2 style="font-size:18px;font-weight:700;margin-bottom:12px">{e(title)}</h2>
-            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">{e(short)} This guide breaks down everything South African punters need to know, from the basics to more advanced strategies. Whether you are completely new to betting or looking to level up your game, we have got you covered.</p>
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">{e(short)} This guide breaks down everything South African punters need to know, from the basics to more advanced strategies. New to betting or looking to level up? We have got you covered.</p>
 
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Why This Matters for SA Punters</h3>
             <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">South Africa\'s betting market has grown massively in recent years, with over 36 licensed operators competing for your business. Understanding the fundamentals gives you an edge - not just over the bookmakers, but over other punters who bet on gut feeling alone. Knowledge is your best tool.</p>
@@ -1881,7 +1881,7 @@ def _generate_guide_content(guides, category, DATA, BRANDS, brands_map):
             <p style="font-size:15px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px">First, make sure you are signed up with a licensed South African bookmaker. We recommend starting with {top3[0]} or {top3[1]} for the best combination of odds, bonuses, and user experience. Once you have an account, take time to explore the platform before placing your first bet.</p>
 
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Recommended Bookmakers</h3>
-            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary)">For the best experience, we recommend {top3[0]}, {top3[1]}, and {top3[2]}. All three are licensed, well-established, and offer competitive odds across a wide range of markets.</p>'''
+            <p style="font-size:15px;line-height:1.75;color:var(--text-secondary)">For the best experience, we recommend {top3[0]}, {top3[1]}, and {top3[2]}. All three are licensed, well-established, and offer competitive odds across plenty of markets.</p>'''
 
     return content
 
@@ -2024,7 +2024,7 @@ def _build_crash_game_subpage(game, all_games, page_fn, breadcrumbs_fn, write_fi
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Aviator Strategy Tips</h3>
             <ul style="list-style:none;padding:0;margin-bottom:16px">
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Consider using auto-cashout at lower multipliers (1.5x-2x) for consistent small wins</li>
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>The provably fair system means no pattern exists — each round is independent</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>The provably fair system means no pattern exists. Each round is independent</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Use the two-bet feature: one safe low cashout, one risky high target</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Set a loss limit before you start playing and stick to it</li>
             </ul>""",
@@ -2032,25 +2032,25 @@ def _build_crash_game_subpage(game, all_games, page_fn, breadcrumbs_fn, write_fi
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">JetX Features</h3>
             <ul style="list-style:none;padding:0;margin-bottom:16px">
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Place up to 3 simultaneous bets per round for different strategies</li>
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Maximum multiplier of 25,000x — theoretical max payout is massive</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Maximum multiplier of 25,000x with massive theoretical max payouts</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Galaxy jackpot feature adds extra winning potential</li>
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Provably fair — verify each round result independently</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Provably fair. You can verify each round result independently</li>
             </ul>""",
         'spaceman': """
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Spaceman Unique Features</h3>
             <ul style="list-style:none;padding:0;margin-bottom:16px">
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>50% partial cash-out lets you lock in some profit while keeping the rest active</li>
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Pragmatic Play — one of the world's biggest game providers</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Pragmatic Play, one of the world's biggest game providers</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Clean space theme with smooth animations</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Available at most licensed SA betting sites</li>
             </ul>""",
         'red-baron': """
             <h3 style="font-size:16px;font-weight:600;margin-top:24px;margin-bottom:8px">Red Baron Details</h3>
             <ul style="list-style:none;padding:0;margin-bottom:16px">
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Evolution — the world leader in live casino games</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>From Evolution, the world leader in live casino games</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>Vintage World War I biplane theme with excellent production quality</li>
               <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>One of the newest crash games available in SA</li>
-              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>RTP of 96.36% — standard for crash games</li>
+              <li style="padding:6px 0;padding-left:20px;position:relative;font-size:14px;line-height:1.75;color:var(--text-secondary)"><span style="position:absolute;left:0;color:var(--accent)">&#8226;</span>RTP of 96.36%, which is standard for crash games</li>
             </ul>""",
     }
 
@@ -2196,7 +2196,7 @@ def build_sa_slots_section(page_fn, category_hero_fn, breadcrumbs_fn, write_file
 
     hero = category_hero_fn(
         'South African Slots',
-        'Slot games made for South African players — featuring local themes, SA culture, and familiar faces.',
+        'Slot games made for South African players, featuring local themes, SA culture, and familiar faces.',
         [{"label": "Home", "href": "index.html"}, {"label": "Casino", "href": "casino-sites.html"}, {"label": "SA Slots"}], 0,
         deco_icon='&#x1F3B0;'
     )
@@ -2213,8 +2213,8 @@ def build_sa_slots_section(page_fn, category_hero_fn, breadcrumbs_fn, write_file
 
       <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:760px">
         <h2 style="font-size:18px;font-weight:700;margin-bottom:12px">Why Play South African Slots?</h2>
-        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">International slot providers create games for a global audience. These SA slots are different — they feature local themes, cultural references, and characters that South African players recognise and connect with.</p>
-        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary)">Whether it is the Kaizer Chiefs branding of Amakhosi Cash, the festival vibes of Liefde, or the humour of Babalas, these games feel like home. The mechanics are solid too — Megaways, expanding reels, multiplier wilds, and free spins features are all represented.</p>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:12px">International slot providers create games for a global audience. These SA slots are different. They feature local themes, cultural references, and characters that South African players recognise and connect with.</p>
+        <p style="font-size:14px;line-height:1.75;color:var(--text-secondary)">From the Kaizer Chiefs branding of Amakhosi Cash, the festival vibes of Liefde, or the humour of Babalas, these games feel like home. The mechanics are solid too. Megaways, expanding reels, multiplier wilds, and free spins features are all represented.</p>
       </div>
     </div>"""
 
